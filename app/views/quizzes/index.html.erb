@@ -4,7 +4,7 @@
   <ul class="list-decimal">
   
   <% @quizzes.each do |quiz|%>
-  <li><%= quiz.title%></li>
+  <li><%= link_to quiz.title, quiz_path(quiz)%></li>
   <%end%>
 
   </ul>
