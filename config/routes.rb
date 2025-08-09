@@ -1,12 +1,5 @@
 Rails.application.routes.draw do
-  get "quiz/index"
-  get "quiz/show"
-  get "quiz/new"
-  get "quiz/create"
-  get "quiz/edit"
-  get "quiz/update"
-  get "quiz/destroy"
-  resources :quiz
+  resources :quizzes 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
