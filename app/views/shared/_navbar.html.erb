@@ -8,8 +8,9 @@
       
       <!-- Only New Quiz link -->
       <div>
-        <%= link_to "+ New Quiz", new_quiz_path, 
-            class: "rounded-md px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-800" %>
+      
+      <% unless current_page?(new_quiz_path) %>
+        <%= link_to "+ New Quiz", new_quiz_path, class: "btn-nav" %>        <% end %>
       </div>
     </div>
   </div>
