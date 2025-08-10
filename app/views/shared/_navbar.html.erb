@@ -1,49 +1,16 @@
-<nav class="bg-gray-800">
+<nav class="bg-transparent border-b border-gray-200">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
-      <!-- Logo/Brand -->
-      <div class="flex items-center">
-        <div class="text-xl font-bold text-white">
-          <%= link_to "Quiz App", root_path, class: "text-white hover:text-gray-300" %>
-        </div>
+      <!-- Logo goes to home -->
+      <div class="text-xl font-bold text-gray-900">
+        <%= link_to "QUIZER", root_path, class: "text-gray-900 hover:text-gray-600" %>
       </div>
       
-      <!-- Desktop Navigation -->
-      <div class="hidden md:block">
-        <div class="flex items-baseline space-x-4">
-          <%= link_to "All Quizzes", quizzes_path, 
-              class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" %>
-          <%= link_to "New Quiz", new_quiz_path, 
-              class: "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" %>
-        </div>
+      <!-- Only New Quiz link -->
+      <div>
+        <%= link_to "+ New Quiz", new_quiz_path, 
+            class: "rounded-md px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-800" %>
       </div>
-      
-      <!-- Mobile menu button -->
-      <div class="md:hidden">
-        <button id="mobile-menu-btn" 
-                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="md:hidden hidden">
-    <div class="px-2 pt-2 pb-3 space-y-1">
-      <%= link_to "All Quizzes", quizzes_path, 
-          class: "block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" %>
-      <%= link_to "New Quiz", new_quiz_path, 
-          class: "block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" %>
     </div>
   </div>
 </nav>
-
-<script>
-  document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-    const mobileMenu = document.getElementById('mobile-menu');
-    mobileMenu.classList.toggle('hidden');
-  });
-</script>

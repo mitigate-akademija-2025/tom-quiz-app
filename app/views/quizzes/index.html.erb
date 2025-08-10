@@ -1,14 +1,19 @@
-<div>
-  <h1 class="font-bold text-4xl">Quiz#index</h1>
-
-  <ul class="list-decimal">
-  
-  <% @quizzes.each do |quiz|%>
-  <li><%= link_to quiz.title, quiz_path(quiz)%></li>
-  <%end%>
-
-  </ul>
-
-<br>  
-  <%= link_to "Create new quiz", new_quiz_path, class: "text-blue-600 hover:underline" %>
+<div class="space-y-6">
+  <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <% @quizzes.each do |quiz| %>
+      <div class="bg-white p-6 rounded-lg border hover:shadow-md transition">
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">
+          <%= link_to quiz.title, quiz_path(quiz), class: "hover:text-blue-600" %>
+        </h3>
+        
+        <p class="text-gray-600 text-sm mb-4">
+          <%= quiz.description %>
+        </p>
+        
+        <div class="text-sm text-gray-500">
+          Created <%= time_ago_in_words(quiz.created_at) %> ago
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
