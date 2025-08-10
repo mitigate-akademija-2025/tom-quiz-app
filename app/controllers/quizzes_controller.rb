@@ -12,7 +12,13 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    
+    @quiz = Quiz.new(quiz_params)
+
+    if @quiz.save
+      redirect_to quiz_path(@quiz)
+    else
+      render :new
+    end
   end
 
   def edit
@@ -23,4 +29,9 @@ class QuizzesController < ApplicationController
 
   def destroy
   end
+
+  def quiz_params
+    params.expect(quiz: [:title, :description])
+  end
+
 end
