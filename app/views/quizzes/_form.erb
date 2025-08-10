@@ -1,0 +1,24 @@
+<%= form_with model: quiz do |form| %>
+
+  <% if quiz.errors.any? %>
+    <div class="errors">
+    <h1><%= pluralize(quiz.errors.count, "error") %> prohibited </h1>
+      <ul>
+        <% quiz.errors.full_messages.each do |message| %>
+          <% end %>
+      </ul>
+    </div>  
+  <% end %>
+
+  <div class="mb-4">
+  <%= form.label :title, class: "block mb-2" %>
+  <%= form.text_field :title, placeholder: "Enter quiz title here", class: "w-full p-2 border rounded" %>
+  </div>
+  
+  <div class="mb-4">
+  <%= form.label :description, class: "block mb-2" %>
+  <%= form.text_area :description, placeholder: "Enter quiz description here", class: "w-full p-2 border rounded" %>
+  </div>
+  
+  <%= form.submit class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+<% end %>
