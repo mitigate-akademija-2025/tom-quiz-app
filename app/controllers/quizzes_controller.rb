@@ -17,7 +17,7 @@ class QuizzesController < ApplicationController
     if @quiz.save
       redirect_to quiz_path(@quiz)
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

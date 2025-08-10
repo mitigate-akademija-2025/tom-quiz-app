@@ -2,6 +2,18 @@
 <h1 class="font-bold text-4xl">Create new quiz</h1>
 
 <%= form_with model: @quiz do |f| %>
+
+  <% if @quiz.errors.any? %>
+    <div class="errors">
+    <h1><%= pluralize(@quiz.errors.count, "error") %> prohibited </h1>
+      <ul>
+        <% @quiz.errors.full_messages.each do |message| %>
+          <li><%= message%></li>
+          <% end %>
+      </ul>
+    </div>  
+  <% end %>
+
   <div class="mb-4">
   <%= f.label :title, class: "block mb-2" %>
   <%= f.text_field :title, placeholder: "Enter quiz title here", class: "w-full p-2 border rounded" %>
