@@ -1,6 +1,6 @@
 class TestController < ApplicationController
   def index
-  end  
+  end
   def test
   end
 end

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :quizzes 
+  resources :quizzes
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -18,6 +18,5 @@ Rails.application.routes.draw do
 
 
   # Test tailwind setup
-  get 'test', to: 'test#index'
-
+  get "test", to: "test#index"
 end

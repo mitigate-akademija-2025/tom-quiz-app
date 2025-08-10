@@ -46,7 +46,6 @@ class QuizzesController < ApplicationController
   end
 
   def quiz_params
-    params.expect(quiz: [:title, :description])
+    params.expect(quiz: [ :title, :description ])
   end
-
 end
