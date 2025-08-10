@@ -15,6 +15,7 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.new(quiz_params)
 
     if @quiz.save
+      flash[:notice] = "New quiz created!"
       redirect_to quiz_path(@quiz)
     else
       render :new, status: :unprocessable_entity
@@ -29,6 +30,7 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.find(params[:id])
 
     if @quiz.update(quiz_params)
+      flash[:notice] = "Quiz Updated!!"
       redirect_to quiz_path(@quiz)
     else
       render :edit, status: :unprocessable_entity
@@ -39,7 +41,7 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.find(params[:id])
 
     @quiz.destroy
-
+    flash[:notice] = "Quiz deleted!"
     redirect_to quizzes_path
   end
 
