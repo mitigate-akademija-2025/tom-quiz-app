@@ -6,6 +6,15 @@
     @apply container mx-auto mt-8 px-4 sm:px-6 lg:px-8;
   }
   
+  .page-content {
+    @apply space-y-6;
+  }
+  
+  .container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Flash messages */
   .flash-success {
     @apply bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4;
   }
@@ -23,8 +32,25 @@
     @apply text-4xl font-bold text-gray-900 mb-8;
   }
   
-  .page-content {
-    @apply space-y-6;
+  .page-title {
+    @apply text-2xl font-bold text-gray-900;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700 hover:text-white transition font-medium;
+  }
+  
+  .btn-secondary {
+    @apply text-blue-600 hover:text-blue-800 font-medium px-3 py-2 rounded-md;
+  }
+  
+  .btn-danger {
+    @apply text-gray-700 px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white transition font-medium;
+  }
+
+  .btn-nav {
+    @apply rounded-md px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-800;
   }
 
   /* Form components */
@@ -60,37 +86,65 @@
     @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24;
   }
 
-  /* Buttons */
-  .btn-primary {
-    @apply text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700 hover:text-blue-200 transition font-medium;
-  }
-  
-  .btn-secondary {
-    @apply text-blue-600 hover:text-blue-800 font-medium px-3 py-2 rounded-md;
-  }
-  
-    .btn-danger {
-    @apply text-gray-700 px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white hover:border-red-600 transition font-medium;
+  /* Difficulty components */
+  .difficulty-field {
+    @apply space-y-2;
   }
 
-    .btn-nav {
-    @apply rounded-md px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-800;
+  .difficulty-slider {
+    @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer;
+  }
+
+  .difficulty-labels {
+    @apply flex justify-between text-sm text-gray-500;
+  }
+
+  .difficulty-badge {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium;
   }
   
-  /* Cards */
+  .difficulty-easy {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .difficulty-medium {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .difficulty-hard {
+    @apply bg-orange-100 text-orange-800;
+  }
+  
+  .difficulty-impossible {
+    @apply bg-red-100 text-red-800;
+  }
+
+  /* Cards and content */
   .quiz-card {
     @apply bg-white p-6 rounded-lg border hover:shadow-md transition;
   }
   
-  /* Typography */
-  .page-title {
-    @apply text-2xl font-bold text-gray-900;
+  .quiz-grid {
+    @apply grid gap-4 md:grid-cols-2 lg:grid-cols-3;
   }
   
   .card-title {
     @apply text-lg font-semibold text-gray-900 mb-2;
   }
+
+  .card-title-link {
+    @apply hover:text-blue-600;
+  }
   
+  .card-description {
+    @apply text-gray-600 text-sm mb-4;
+  }
+  
+  .card-meta {
+    @apply text-sm text-gray-500;
+  }
+  
+  /* Typography utilities */
   .text-muted {
     @apply text-gray-600 text-sm;
   }
@@ -98,14 +152,5 @@
   /* Navigation */
   .nav-link {
     @apply rounded-md px-3 py-2 text-sm font-medium text-blue-600 hover:text-blue-800;
-  }
-  
-  /* Layout */
-  .quiz-grid {
-    @apply grid gap-4 md:grid-cols-2 lg:grid-cols-3;
-  }
-  
-  .container {
-    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 }

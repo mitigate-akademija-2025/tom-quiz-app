@@ -2,9 +2,14 @@
   <div class="quiz-grid">
     <% @quizzes.each do |quiz| %>
       <div class="quiz-card">
-        <h3 class="card-title">
-          <%= link_to quiz.title, quiz_path(quiz), class: "card-title-link" %>
-        </h3>
+        <div class="flex justify-between items-start mb-3">
+          <h3 class="card-title">
+            <%= link_to quiz.title, quiz_path(quiz), class: "card-title-link" %>
+          </h3>
+          <span class="difficulty-badge difficulty-<%= quiz.difficulty_name.downcase %>">
+            <%= quiz.difficulty_name %>
+          </span>
+        </div>
         
         <p class="card-description">
           <%= quiz.description %>

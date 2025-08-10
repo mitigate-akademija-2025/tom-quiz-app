@@ -1,10 +1,15 @@
 <div class="page-content">
-  <h1 class="page-header"><%= @quiz.title %></h1>
+  <div class="flex justify-between items-start mb-6">
+    <h1 class="page-header"><%= @quiz.title %></h1>
+    <span class="difficulty-badge difficulty-<%= @quiz.difficulty_name.downcase %>">
+      <%= @quiz.difficulty_name %>
+    </span>
+  </div>
   
   <p class="card-description"><%= @quiz.description %></p>
   
   <div class="flex space-x-4 mt-6">
-    <%= link_to "Edit", edit_quiz_path(@quiz), class: "btn-primary" %>
+    <%= link_to "Edit", edit_quiz_path(@quiz), class: "btn-secondary" %>
     <%= button_to "Delete", quiz_path(@quiz), 
         method: :delete,
         data: { turbo_confirm: "Are you sure you want to delete this quiz?" },
