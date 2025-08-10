@@ -1,15 +1,13 @@
-<div>
-  <h1 class="font-bold text-4xl">Quiz#show
-  Title:<%= @quiz.title %>
-  </h1>
-  <p>
-  <%= @quiz.description %>
-  </p>
-  <p>Find me in app/views/quiz/show.html.erb</p>
-  <%= link_to "Edit this quiz", edit_quiz_path, class: "text-blue-600 hover:underline" %>
-  <br>
-  <%= button_to "Delete this quiz", quiz_path(@quiz), 
-      method: :delete,
-      data: { turbo_confirm: "Are you sure you want to delete this quiz?" },
-      class: "text-blue-600 hover:underline bg-transparent border-0 cursor-pointer" %>
+<div class="page-content">
+  <h1 class="page-header"><%= @quiz.title %></h1>
+  
+  <p class="card-description"><%= @quiz.description %></p>
+  
+  <div class="flex space-x-4 mt-6">
+    <%= link_to "Edit", edit_quiz_path(@quiz), class: "btn-secondary" %>
+    <%= button_to "Delete", quiz_path(@quiz), 
+        method: :delete,
+        data: { turbo_confirm: "Are you sure you want to delete this quiz?" },
+        class: "btn-danger" %>
+  </div>
 </div>
