@@ -1,4 +1,17 @@
 <div>
-  <h1 class="font-bold text-4xl">Quiz#new</h1>
-  <p>Find me in app/views/quiz/new.html.erb</p>
-</div>
+<h1 class="font-bold text-4xl">Create new quiz</h1>
+
+<%= form_with model: @quiz do |f| %>
+  <div class="mb-4">
+  <%= f.label :title, class: "block mb-2" %>
+  <%= f.text_field :title, class: "w-full p-2 border rounded" %>
+  </div>
+  
+  <div class="mb-4">
+  <%= f.label :description, class: "block mb-2" %>
+  <%= f.text_area :description, class: "w-full p-2 border rounded" %>
+  </div>
+  
+  <%= f.submit "Create Quiz", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+  <% end %>
+  </div>

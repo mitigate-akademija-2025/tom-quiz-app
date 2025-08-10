@@ -8,6 +8,7 @@ class QuizzesController < ApplicationController
   end
 
   def new
+    @quiz = Quiz.new
   end
 
   def create
