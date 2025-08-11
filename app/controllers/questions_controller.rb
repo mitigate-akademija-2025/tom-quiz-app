@@ -25,6 +25,9 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    @question.destroy
+    flash[:notice] = "Question deleted!"
+    redirect_to @quiz, notice: "Question was successfully deleted.", status: :see_other
   end
 
   private
