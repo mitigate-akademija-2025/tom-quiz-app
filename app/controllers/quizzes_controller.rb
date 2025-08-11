@@ -1,50 +1,57 @@
 class QuizzesController < ApplicationController
+  before_action :set_quiz, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_categories, only: [ :new, :edit ]
+
   def index
     @quizzes = Quiz.all
   end
 
   def show
-    @quiz = Quiz.find(params[:id])
+    # @quiz already set by before_action
   end
 
   def new
     @quiz = Quiz.new
-    @categories = Category.all.order(:name)
+    # @categories already set by before_action
   end
 
   def create
     @quiz = Quiz.new(quiz_params)
 
     if @quiz.save
-      flash[:notice] = "New quiz created!"
-      redirect_to quiz_path(@quiz)
+      redirect_to @quiz, notice: "Quiz was successfully created.", status: :see_other
     else
+      set_categories  # Reload categories for form
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @quiz = Quiz.find(params[:id])
-    @categories = Category.all.order(:name)
+    # @quiz and @categories already set by before_action
   end
 
   def update
-    @quiz = Quiz.find(params[:id])
-
     if @quiz.update(quiz_params)
-      flash[:notice] = "Quiz Updated!!"
-      redirect_to quiz_path(@quiz)
+      redirect_to @quiz, notice: "Quiz was successfully updated.", status: :see_other
     else
+      set_categories  # Reload categories for form
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @quiz = Quiz.find(params[:id])
-
     @quiz.destroy
-    flash[:notice] = "Quiz deleted!"
-    redirect_to quizzes_path
+    redirect_to quizzes_path, notice: "Quiz was successfully deleted.", status: :see_other
+  end
+
+  private
+
+  def set_quiz
+    @quiz = Quiz.find(params[:id])
+  end
+
+  def set_categories
+    @categories = Category.all.order(:name)
   end
 
   def quiz_params
