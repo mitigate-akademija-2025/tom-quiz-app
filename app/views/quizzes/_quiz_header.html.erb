@@ -1,0 +1,32 @@
+<div class="flex justify-between items-start mb-6">
+  <h1 class="page-header"><%= quiz.title %></h1>
+  <div class="dropdown">
+    <button class="dropdown-trigger" onclick="toggleDropdown(event)">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
+        </svg>
+      </button>
+      
+      <div class="dropdown-menu hidden">
+        <%= link_to "Edit", edit_quiz_path(@quiz), class: "dropdown-item" %>
+        <%= button_to "Delete", quiz_path(@quiz),
+                      method: :delete,
+                      data: { turbo_confirm: "Are you sure?" },
+                      class: "dropdown-item-danger" %>
+      </div>
+  </div>
+</div>
+<script>
+function toggleDropdown(event) {
+  event.stopPropagation();
+  const dropdown = event.target.closest('.dropdown');
+  const menu = dropdown.querySelector('.dropdown-menu');
+  menu.classList.toggle('hidden');
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function closeDropdown() {
+    menu.classList.add('hidden');
+    document.removeEventListener('click', closeDropdown);
+  });
+}
+</script>

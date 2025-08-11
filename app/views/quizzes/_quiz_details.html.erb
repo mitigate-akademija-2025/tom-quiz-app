@@ -1,0 +1,16 @@
+<p class="card-description"><%= quiz.description %></p>
+
+<div class="flex justify-between items-center">
+  <div class="card-meta">
+    Created <%= time_ago_in_words(quiz.created_at) %> ago
+  </div>
+  
+  <div class="flex space-x-2">
+    <span class="category-badge">
+      <%= quiz.category.name %>
+    </span>
+    <span class="difficulty-badge difficulty-<%= quiz.difficulty_name.downcase %>">
+      <%= quiz.difficulty_name %>
+    </span>
+  </div>
+</div>
