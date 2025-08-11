@@ -2,21 +2,27 @@
   <div class="quiz-grid">
     <% @quizzes.each do |quiz| %>
       <div class="quiz-card">
-        <div class="flex justify-between items-start mb-3">
-          <h3 class="card-title">
-            <%= link_to quiz.title, quiz_path(quiz), class: "card-title-link" %>
-          </h3>
-          <span class="difficulty-badge difficulty-<%= quiz.difficulty_name.downcase %>">
-            <%= quiz.difficulty_name %>
-          </span>
-        </div>
+        <h3 class="card-title">
+          <%= link_to quiz.title, quiz_path(quiz), class: "card-title-link" %>
+        </h3>
         
         <p class="card-description">
           <%= quiz.description %>
         </p>
         
-        <div class="card-meta">
-          Created <%= time_ago_in_words(quiz.created_at) %> ago
+        <div class="flex justify-between items-center">
+          <div class="card-meta">
+            Created <%= time_ago_in_words(quiz.created_at) %> ago
+          </div>
+          
+          <div class="flex space-x-2">
+            <span class="category-badge">
+              <%= quiz.category.name %>
+            </span>
+            <span class="difficulty-badge difficulty-<%= quiz.difficulty_name.downcase %>">
+              <%= quiz.difficulty_name %>
+            </span>
+          </div>
         </div>
       </div>
     <% end %>

@@ -9,6 +9,7 @@ class QuizzesController < ApplicationController
 
   def new
     @quiz = Quiz.new
+    @categories = Category.all.order(:name)
   end
 
   def create
@@ -24,6 +25,7 @@ class QuizzesController < ApplicationController
 
   def edit
     @quiz = Quiz.find(params[:id])
+    @categories = Category.all.order(:name)
   end
 
   def update
@@ -46,6 +48,6 @@ class QuizzesController < ApplicationController
   end
 
   def quiz_params
-    params.expect(quiz: [ :title, :description, :difficulty ])
+    params.expect(quiz: [ :title, :description, :difficulty, :category_id ])
   end
 end
