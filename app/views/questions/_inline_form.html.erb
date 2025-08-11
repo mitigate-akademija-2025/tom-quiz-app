@@ -1,0 +1,17 @@
+<div id="question-form" class="hidden mt-4">
+  <%= form_with model: [quiz, quiz.questions.build], local: true, class: "space-y-4" do |form| %>
+    <%= form.text_area :question_text,
+                       placeholder: "Enter your question...",
+                       class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500",
+                       rows: 3 %>
+    
+    <%= form.hidden_field :question_type, value: "multiple_choice" %>
+    
+    <div class="flex space-x-3">
+      <%= form.submit "Save Question", class: "btn-primary" %>
+      <button type="button" onclick="hideQuestionForm()" class="btn-secondary">
+        Cancel
+      </button>
+    </div>
+  <% end %>
+</div>

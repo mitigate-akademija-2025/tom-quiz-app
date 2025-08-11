@@ -1,0 +1,12 @@
+<script>
+function showQuestionForm() {
+  document.getElementById('add-question-btn').classList.add('hidden');
+  document.getElementById('question-form').classList.remove('hidden');
+  document.querySelector('#question-form textarea').focus();
+}
+
+function hideQuestionForm() {
+  document.getElementById('add-question-btn').classList.remove('hidden');
+  document.getElementById('question-form').classList.add('hidden');
+}
+</script>

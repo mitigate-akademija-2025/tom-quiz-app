@@ -1,5 +1,5 @@
 <div class="mt-6 mb-4">
-
-    Add Question button goes here
-
+  <%= render "add_question_toggle" %>
+  <%= render "questions/inline_form", quiz: quiz %>
 </div>
+<%= render "shared/question_form_scripts" %>
