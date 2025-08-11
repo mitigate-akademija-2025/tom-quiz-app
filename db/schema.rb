@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_11_091525) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_11_093846) do
+  create_table "answers", force: :cascade do |t|
+    t.integer "question_id", null: false
+    t.text "answer_text"
+    t.boolean "is_correct"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -38,6 +47,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_11_091525) do
     t.index ["category_id"], name: "index_quizzes_on_category_id"
   end
 
+  add_foreign_key "answers", "questions"
   add_foreign_key "questions", "quizzes"
   add_foreign_key "quizzes", "categories"
 end
