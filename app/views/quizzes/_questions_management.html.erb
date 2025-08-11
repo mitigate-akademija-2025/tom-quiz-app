@@ -1,0 +1,26 @@
+<div class="mt-8">
+  <!-- Header with Add Question button -->
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-semibold">Questions (<%= quiz.questions.count %>)</h2>
+  </div>
+  
+  <!-- Add Question: Button + Inline Form -->
+  <div class="mb-6">
+    <div id="add-question-btn">
+      <button onclick="showQuestionForm()" class="btn-ghost">
+        Add Question
+      </button>
+    </div>
+    
+    <%= render "questions/inline_form", quiz: quiz %>
+  </div>
+  
+  <!-- Questions List -->
+  <div id="questions-list">
+    <%= render quiz.questions.order(created_at: :desc) if quiz.questions.any? %>
+  </div>
+  
+  <% if quiz.questions.empty? %>
+    <p class="text-gray-500 italic">No questions added yet.</p>
+  <% end %>
+</div>

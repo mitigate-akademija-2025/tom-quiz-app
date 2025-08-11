@@ -1,0 +1,36 @@
+<div class="form-container">
+  <%= form_with model: [quiz, question], local: true, class: "space-y-4" do |form| %>
+    
+    <% if question.errors.any? %>
+      <div class="form-errors">
+        <h1><%= pluralize(question.errors.count, "error") %> prohibited</h1>
+        <ul>
+          <% question.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>  
+    <% end %>
+
+    <div class="form-field">
+      <%= form.label :question_text, "Question", class: "form-label" %>
+      <%= form.text_area :question_text,
+                         placeholder: "Enter your question...",
+                         class: "form-textarea",
+                         rows: 3 %>
+    </div>
+    
+    <div class="form-field">
+      <%= form.label :question_type, class: "form-label" %>
+      <%= form.select :question_type,
+                      [["Multiple Choice", "multiple_choice"], ["True/False", "true_false"], ["Short Answer", "short_answer"]],
+                      { selected: question.question_type || "multiple_choice" },
+                      { class: "form-input" } %>
+    </div>
+    
+    <div class="flex space-x-3">
+      <%= form.submit class: "btn-primary" %>
+      <%= yield if block_given? %>
+    </div>
+  <% end %>
+</div>
