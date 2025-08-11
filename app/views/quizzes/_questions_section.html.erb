@@ -1,0 +1,9 @@
+<div class="mt-8">
+    <div id="questions-list">
+        <%= render quiz.questions.order(created_at: :desc) if quiz.questions.any? %>
+    </div>
+  
+  <% if quiz.questions.empty? %>
+    <p class="text-gray-500 italic">No questions added yet.</p>
+  <% end %>
+</div>
