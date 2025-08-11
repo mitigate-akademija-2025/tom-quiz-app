@@ -3,9 +3,11 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [ :show, :edit, :update, :destroy ]
 
   def new
+    @question = @quiz.questions.build
   end
 
   def show
+    # @question already set by before_action
   end
 
   def create
@@ -19,14 +21,19 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+    # @question already set by before_action
   end
 
   def update
+    if @question.update(question_params)
+      redirect_to @quiz, notice: "Question was successfully updated.", status: :see_other
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy
     @question.destroy
-    flash[:notice] = "Question deleted!"
     redirect_to @quiz, notice: "Question was successfully deleted.", status: :see_other
   end
 
