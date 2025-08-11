@@ -7,3 +7,22 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+categories = [
+  "Science",
+  "History",
+  "Culture",
+  "Sports",
+  "Technology",
+  "General Knowledge",
+  "Mathematics",
+  "Literature"
+]
+
+categories.each do |name|
+  Category.find_or_create_by(name: name) do |category|
+    category.description = "#{name} related quizzes"
+  end
+end
+
+puts "Created #{Category.count} categories"
