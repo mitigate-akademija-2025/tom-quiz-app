@@ -1,0 +1,22 @@
+<div class="mt-8">
+  <!-- Add button pill -->
+  <div class="flex justify-end mb-6">
+    <div id="<%= add_button_id %>">
+      <button onclick="<%= show_function %>()" class="question-add-pill">
+        <span><%= item_count %></span>
+        <svg class="add-icon-small" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Render content directly -->
+  <%= add_form %>
+  
+  <div id="<%= items_container_id %>">
+    <%= items_list %>
+  </div>
+  
+  <%= empty_state %>
+</div>

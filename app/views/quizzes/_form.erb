@@ -6,7 +6,7 @@
         <h1><%= pluralize(quiz.errors.count, "error") %> prohibited</h1>
         <ul>
           <% quiz.errors.full_messages.each do |message| %>
-            <li><%= message %></li>  <!-- Fixed: was missing this line! -->
+            <li><%= message %></li>
           <% end %>
         </ul>
       </div>  
