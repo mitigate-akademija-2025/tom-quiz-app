@@ -186,4 +186,20 @@
   .add-icon-small {
     @apply w-4 h-4;
   }
+    /* Question cards */
+  .question-card-horizontal {
+    @apply bg-white border border-gray-200 rounded-lg p-4 mb-3 hover:shadow-sm transition;
+  }
+  
+  .question-text {
+    @apply text-lg font-medium text-gray-900 mb-1 hover:text-blue-600;
+  }
+  
+  .question-type {
+    @apply text-sm text-gray-500;
+  }
+  
+  .questions-container {
+    @apply space-y-3;
+  }
 }

@@ -1,7 +1,10 @@
 <div class="page-content">
   <h1 class="page-header">Edit Question</h1>
   
-  <%= render "question_form", quiz: @quiz, question: @question do %>
-    <%= link_to "Cancel", quiz_path(@quiz), class: "btn-secondary" %>
-  <% end %>
+  <%= render "form", question: @question %>
+  
+  <div class="mt-8">
+    <h2 class="section-header">Manage Answers</h2>
+    <%= render "answers_management", question: @question %>
+  </div>
 </div>

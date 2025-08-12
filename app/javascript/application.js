@@ -27,7 +27,21 @@ function hideQuestionForm() {
   document.getElementById('question-form').classList.add('hidden');
 }
 
+// Answer form functionality
+function showAnswerForm(questionId) {
+  document.getElementById(`add-answer-btn-${questionId}`).classList.add('hidden');
+  document.getElementById(`answer-form-${questionId}`).classList.remove('hidden');
+  document.querySelector(`#answer-form-${questionId} textarea`).focus();
+}
+
+function hideAnswerForm(questionId) {
+  document.getElementById(`add-answer-btn-${questionId}`).classList.remove('hidden');
+  document.getElementById(`answer-form-${questionId}`).classList.add('hidden');
+}
+
 // Make functions globally available
 window.toggleDropdown = toggleDropdown;
 window.showQuestionForm = showQuestionForm;
 window.hideQuestionForm = hideQuestionForm;
+window.showAnswerForm = showAnswerForm;
+window.hideAnswerForm = hideAnswerForm;

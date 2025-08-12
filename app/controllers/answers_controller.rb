@@ -13,6 +13,23 @@ class AnswersController < ApplicationController
     end
   end
 
+  def edit
+    # @answer already set by before_action
+  end
+
+  def update
+    if @answer.update(answer_params)
+      redirect_to quiz_question_path(@quiz, @question), notice: "Answer was successfully updated."
+    else
+      render :edit, status: :unprocessable_content
+    end
+  end
+
+  def destroy
+    @answer.destroy
+    redirect_to quiz_question_path(@quiz, @question), notice: "Answer was successfully deleted."
+  end
+
   private
 
   def set_quiz

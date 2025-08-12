@@ -1,14 +1,13 @@
-<div class="bg-gray-50 p-4 rounded-lg mb-3 flex justify-between items-start">
-  <div class="flex-1 pr-4">
-    <div class="font-medium text-gray-900">
-      <%= question.question_text %>
-    </div>
-    <div class="text-sm text-gray-500 mt-1">
-      <%= question.question_type.humanize %>
-    </div>
-  </div>
+<div class="quiz-card">
+  <h3 class="card-title">
+    <%= link_to question.question_text, quiz_question_path(question.quiz, question), class: "card-title-link" %>
+  </h3>
   
-  <div class="flex-shrink-0">
+  <div class="flex justify-between items-center">
+    <div class="card-meta">
+      Type: <%= question.question_type.humanize %>
+    </div>
+    
     <%= render "questions/question_dropdown", question: question %>
   </div>
 </div>

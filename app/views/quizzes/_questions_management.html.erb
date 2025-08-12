@@ -1,8 +1,8 @@
 <%= render "shared/items_management",
-     add_button_id: "add-question-btn",
-     show_function: "showQuestionForm",
-     item_count: quiz.questions.count,
-     items_container_id: "questions-list",
-     add_form: render("questions/inline_form", quiz: quiz),
-     items_list: (render(quiz.questions.order(created_at: :desc)) if quiz.questions.any?),
-     empty_state: (quiz.questions.empty? ? content_tag(:p, "No questions added yet.", class: "text-gray-500 italic text-center mt-8") : "") %>
+          add_button_id: "add-question-btn",
+          show_function: "showQuestionForm",
+          item_count: quiz.questions.count,
+          items_container_id: "questions-list",
+          add_form: render("questions/inline_form", quiz: quiz),
+          items_list: (quiz.questions.any? ? content_tag(:div, render(quiz.questions.order(created_at: :desc)), class: "space-y-4") : ""),
+          empty_state: (quiz.questions.empty? ? content_tag(:p, "No questions added yet.", class: "text-gray-500 italic text-center mt-8") : "") %>

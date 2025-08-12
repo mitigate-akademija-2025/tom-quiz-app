@@ -1,7 +1,23 @@
-<div id="question-form" class="hidden mt-4">
-  <%= render "questions/question_form", quiz: quiz, question: quiz.questions.build do %>
-    <button type="button" onclick="hideQuestionForm()" class="btn-secondary">
-      Cancel
-    </button>
+<div id="question-form" class="hidden mt-6">
+  <%= form_with model: [quiz, quiz.questions.build], local: true, class: "space-y-4" do |form| %>
+    <div class="form-field">
+      <%= form.text_area :question_text, placeholder: "Enter your question here", class: "form-textarea", rows: 3 %>
+    </div>
+    
+    <div class="form-field">
+      <%= form.select :question_type,
+                      options_for_select([
+                        ["Multiple Choice", "multiple_choice"],
+                        ["True/False", "true_false"],
+                        ["Short Answer", "short_answer"],
+                      ]),
+                      { prompt: "Select question type" },
+                      { class: "form-input" } %>
+    </div>
+    
+    <div class="flex space-x-2">
+      <%= form.submit "Add Question", class: "btn-secondary" %>
+      <button type="button" onclick="hideQuestionForm()" class="btn-cancel">Cancel</button>
+    </div>
   <% end %>
 </div>

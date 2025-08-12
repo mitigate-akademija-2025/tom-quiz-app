@@ -1,26 +1,5 @@
 <div class="page-content">
-  <!-- Question header with dropdown -->
-  <div class="flex justify-between items-start mb-6">
-    <h1 class="page-header"><%= @question.question_text %></h1>
-    
-    <%= render "shared/dropdown_menu" do %>
-      <%= link_to "Edit", edit_quiz_question_path(@quiz, @question), class: "dropdown-item" %>
-      <%= button_to "Delete", quiz_question_path(@quiz, @question),
-                    method: :delete,
-                    data: { turbo_confirm: "Are you sure?" },
-                    class: "dropdown-item-danger" %>
-    <% end %>
-  </div>
-  
-  <!-- Question details -->
-  <div class="mb-6">
-    <span class="category-badge">
-      <%= @question.question_type.humanize %>
-    </span>
-  </div>
-  
-  <!-- Answers management section will go here -->
-  <div class="mt-8">
-    <p class="text-gray-500 italic">Answers management coming next...</p>
-  </div>
+  <%= render "question_header", question: @question %>
+  <%= render "question_details", question: @question %>
+  <%= render "answers_management", question: @question %>
 </div>

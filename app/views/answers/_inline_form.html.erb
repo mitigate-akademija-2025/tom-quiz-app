@@ -1,0 +1,17 @@
+<div id="answer-form-<%= question.id %>" class="hidden mt-4">
+  <%= form_with model: [question.quiz, question, question.answers.build], local: true, class: "space-y-3" do |form| %>
+    <div class="form-field">
+      <%= form.text_area :answer_text, placeholder: "Enter answer text", class: "form-textarea", rows: 2 %>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <%= form.check_box :is_correct, class: "form-checkbox" %>
+      <%= form.label :is_correct, "Correct answer", class: "form-label-inline" %>
+    </div>
+    
+    <div class="flex space-x-2">
+      <%= form.submit "Add Answer", class: "btn-secondary" %>
+      <button type="button" onclick="hideAnswerForm(<%= question.id %>)" class="btn-cancel">Cancel</button>
+    </div>
+  <% end %>
+</div>

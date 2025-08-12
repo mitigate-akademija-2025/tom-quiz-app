@@ -1,0 +1,8 @@
+<%= render "shared/items_management",
+          add_button_id: "add-answer-btn-#{question.id}",
+          show_function: "showAnswerForm(#{question.id})",
+          item_count: question.answers.count,
+          items_container_id: "answers-list-#{question.id}",
+          add_form: render("answers/inline_form", question: question),
+          items_list: (question.answers.any? ? content_tag(:div, render(question.answers.order(created_at: :desc)), class: "space-y-4") : ""),
+          empty_state: (question.answers.empty? ? content_tag(:p, "No answers added yet.", class: "text-gray-500 italic text-center mt-4") : "") %>

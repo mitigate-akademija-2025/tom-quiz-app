@@ -1,0 +1,6 @@
+<div class="card-description">
+  <p class="question-type">Type: <%= question.question_type.humanize %></p>
+  <div class="card-meta">
+    Quiz: <%= link_to question.quiz.title, quiz_path(question.quiz) %>
+  </div>
+</div>
