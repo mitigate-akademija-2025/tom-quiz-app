@@ -1,19 +1,17 @@
 <div class="mt-8">
-  <!-- Header with Add Question button -->
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-semibold">Questions (<%= quiz.questions.count %>)</h2>
-  </div>
-  
-  <!-- Add Question: Button + Inline Form -->
-  <div class="mb-6">
+  <!-- Just the Add Question pill on right -->
+  <div class="flex justify-end mb-6">
     <div id="add-question-btn">
-      <button onclick="showQuestionForm()" class="btn-ghost">
-        Add Question
+      <button onclick="showQuestionForm()" class="question-add-pill">
+        <span><%= quiz.questions.count %></span>
+        <svg class="add-icon-small" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
       </button>
     </div>
-    
-    <%= render "questions/inline_form", quiz: quiz %>
   </div>
+  
+  <%= render "questions/inline_form", quiz: quiz %>
   
   <!-- Questions List -->
   <div id="questions-list">
@@ -21,6 +19,6 @@
   </div>
   
   <% if quiz.questions.empty? %>
-    <p class="text-gray-500 italic">No questions added yet.</p>
+    <p class="text-gray-500 italic text-center mt-8">No questions added yet.</p>
   <% end %>
 </div>

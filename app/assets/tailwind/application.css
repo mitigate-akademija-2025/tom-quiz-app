@@ -178,4 +178,12 @@
   .dropdown-item-danger {
     @apply block px-3 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left;
   }
+  /* Question add pill */
+  .question-add-pill {
+    @apply inline-flex items-center space-x-2 bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-200 transition cursor-pointer;
+  }
+  
+  .add-icon-small {
+    @apply w-4 h-4;
+  }
 }
