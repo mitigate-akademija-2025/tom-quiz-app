@@ -48,6 +48,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.expect(question: [ :question_text, :question_type ])
+    params.expect(question: [ :question_text, :question_type, :difficulty ])
   end
 end

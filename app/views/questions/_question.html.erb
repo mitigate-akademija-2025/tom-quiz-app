@@ -4,8 +4,11 @@
   </h3>
   
   <div class="flex justify-between items-center">
-    <div class="card-meta">
-      Type: <%= question.question_type.humanize %>
+    <div class="flex space-x-2">
+      <span class="card-meta">Type: <%= question.question_type.humanize %></span>
+      <span class="difficulty-badge difficulty-<%= question.difficulty_name.downcase %>">
+        <%= question.difficulty_name %>
+      </span>
     </div>
     
     <%= render "questions/question_dropdown", question: question %>

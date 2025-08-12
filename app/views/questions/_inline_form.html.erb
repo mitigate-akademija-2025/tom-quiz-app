@@ -15,6 +15,17 @@
                       { class: "form-input" } %>
     </div>
     
+    <div class="difficulty-field">
+      <%= form.label :difficulty, "Difficulty Level", class: "form-label" %>
+      <%= form.range_field :difficulty, in: 1..4, step: 1, value: 2, class: "difficulty-slider" %>
+      <div class="difficulty-labels">
+        <span>Easy</span>
+        <span>Medium</span>
+        <span>Hard</span>
+        <span>Impossible</span>
+      </div>
+    </div>
+
     <div class="flex space-x-2">
       <%= form.submit "Add Question", class: "btn-secondary" %>
       <button type="button" onclick="hideQuestionForm()" class="btn-cancel">Cancel</button>

@@ -14,5 +14,16 @@
                     { class: "form-input" } %>
   </div>
   
+<div class="difficulty-field">
+  <%= form.label :difficulty, "Difficulty Level", class: "form-label" %>
+  <%= form.range_field :difficulty, in: 1..4, step: 1, value: question.difficulty || 2, class: "difficulty-slider" %>
+  <div class="difficulty-labels">
+    <span>Easy</span>
+    <span>Medium</span>
+    <span>Hard</span>
+    <span>Impossible</span>
+  </div>
+</div>
+
   <%= form.submit "Update Question", class: "btn-secondary" %>
 <% end %>
