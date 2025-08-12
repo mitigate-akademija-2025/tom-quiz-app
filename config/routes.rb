@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :quizzes do
-    resources :questions
+    resources :questions do
+      resources :answers, except: [ :index, :show ]
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
