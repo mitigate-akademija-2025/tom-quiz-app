@@ -1,15 +1,12 @@
 <div class="quiz-card">
-  <p class="card-title"><%= answer.answer_text %></p>
-  
-  <div class="flex justify-between items-center">
-    <div class="card-meta">
-      <% if answer.is_correct? %>
-        <span class="difficulty-badge difficulty-easy">✓ Correct</span>
-      <% else %>
-        <span class="text-gray-500">Answer option</span>
-      <% end %>
-    </div>
-    
+  <div class="flex justify-between items-start mb-4">
+    <p class="card-title flex-1"><%= answer.answer_text %></p>
     <%= render "answers/answer_dropdown", answer: answer %>
+  </div>
+  
+  <div class="flex justify-end">
+    <% if answer.is_correct? %>
+      <span class="difficulty-badge difficulty-easy">✓ Correct</span>
+    <% end %>
   </div>
 </div>

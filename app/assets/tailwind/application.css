@@ -126,7 +126,7 @@
 
   /* Cards and content */
   .quiz-card {
-    @apply bg-white p-6 rounded-lg border hover:shadow-md transition;
+    @apply bg-white p-6 rounded-lg border hover:shadow-md transition flex flex-col justify-between h-full;
   }
   
   .quiz-grid {
