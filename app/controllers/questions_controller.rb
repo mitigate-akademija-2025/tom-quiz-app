@@ -16,7 +16,7 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to @quiz, notice: "Question was successfully added.", status: :see_other
     else
-      redirect_to @quiz, alert: @question.errors.full_messages.join(", "), status: :unprocessable_entity
+      redirect_to @quiz, alert: @question.errors.full_messages.join(", "), status: :see_other
     end
   end
 
@@ -28,7 +28,7 @@ class QuestionsController < ApplicationController
     if @question.update(question_params)
       redirect_to @quiz, notice: "Question was successfully updated.", status: :see_other
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

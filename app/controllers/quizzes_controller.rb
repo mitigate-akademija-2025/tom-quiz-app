@@ -22,7 +22,7 @@ class QuizzesController < ApplicationController
       redirect_to @quiz, notice: "Quiz was successfully created.", status: :see_other
     else
       set_categories  # Reload categories for form
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -35,7 +35,7 @@ class QuizzesController < ApplicationController
       redirect_to @quiz, notice: "Quiz was successfully updated.", status: :see_other
     else
       set_categories  # Reload categories for form
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
