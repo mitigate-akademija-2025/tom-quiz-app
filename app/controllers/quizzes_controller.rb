@@ -98,6 +98,29 @@ class QuizzesController < ApplicationController
     session[:quiz_attempt] = nil
   end
 
+
+  def generate
+    # Show form
+  end
+
+  def create_from_ai
+    service = QuizGeneratorService.new(
+      topic: params[:topic],
+      difficulty: params[:difficulty],
+      question_count: params[:question_count].to_i,
+      category_id: params[:category_id]
+    )
+    
+    @quiz = service.generate
+    
+    if @quiz
+      redirect_to @quiz, notice: 'Quiz generated successfully!'
+    else
+      redirect_to generate_quizzes_path, alert: 'Failed to generate quiz'
+    end
+  end
+
+
   private
 
   def set_quiz

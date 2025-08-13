@@ -1,0 +1,42 @@
+<div class="page-content">
+  <div class="quiz-card max-w-2xl mx-auto">
+    <h1 class="page-header">Generate Quiz with AI</h1>
+    
+    <%= form_with url: create_from_ai_quizzes_path, local: true do |form| %>
+      <div class="mb-4">
+        <%= form.label :topic, "Quiz Topic", class: "block mb-2" %>
+        <%= form.text_field :topic, 
+            placeholder: "e.g., Ruby on Rails, World History, Science", 
+            class: "w-full p-2 border rounded",
+            required: true %>
+      </div>
+      
+      <div class="mb-4">
+        <%= form.label :difficulty, "Difficulty", class: "block mb-2" %>
+        <%= form.select :difficulty, 
+            options_for_select([['Easy', 'easy'], ['Medium', 'medium'], ['Hard', 'hard']]),
+            {}, 
+            class: "w-full p-2 border rounded" %>
+      </div>
+      
+      <div class="mb-4">
+        <%= form.label :question_count, "Number of Questions", class: "block mb-2" %>
+        <%= form.number_field :question_count, 
+            value: 10, 
+            min: 5, 
+            max: 20,
+            class: "w-full p-2 border rounded" %>
+      </div>
+      
+      <div class="mb-4">
+        <%= form.label :category_id, "Category", class: "block mb-2" %>
+        <%= form.select :category_id, 
+            options_from_collection_for_select(Category.all, :id, :name),
+            { prompt: "Select category" },
+            class: "w-full p-2 border rounded" %>
+      </div>
+      
+      <%= form.submit "Generate Quiz", class: "btn-primary w-full" %>
+    <% end %>
+  </div>
+</div>
