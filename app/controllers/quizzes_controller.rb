@@ -45,7 +45,7 @@ class QuizzesController < ApplicationController
   end
 
   def start
-  # @quiz already set by before_action
+    # @quiz already set by before_action
     session[:quiz_attempt] = {
       "answers" => {},
       "started_at" => Time.current
@@ -57,12 +57,12 @@ class QuizzesController < ApplicationController
     @questions = @quiz.questions.order(:id)  # Or order(:position) if you have that column
     @question = @questions[@current_question_number - 1]
     @total_questions = @questions.count
-    
+
     if @question.nil?
       redirect_to quiz_path(@quiz), alert: "Question not found"
       return
     end
-    
+
     # Check for existing answer
     @selected_answer = session.dig(:quiz_attempt, "answers", @question.id.to_s)
   end
@@ -70,9 +70,9 @@ class QuizzesController < ApplicationController
   def answer
     session[:quiz_attempt] ||= { "answers" => {} }
     session[:quiz_attempt]["answers"][params[:question_id]] = params[:answer_ids]
-        
+
     next_position = params[:question].to_i + 1
-    
+
     if next_position <= @quiz.questions.count
       redirect_to take_quiz_path(@quiz, question: next_position)
     else
@@ -85,12 +85,12 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.includes(questions: :answers).find(params[:id])
     @answers = session.dig(:quiz_attempt, "answers") || {}
     @score = calculate_score(@quiz, @answers)
-    
+
     # Store best score
     session[:best_scores] ||= {}
     current_best = session[:best_scores][@quiz.id.to_s] || 0
-    session[:best_scores][@quiz.id.to_s] = [@score[:percentage], current_best].max
-    
+    session[:best_scores][@quiz.id.to_s] = [ @score[:percentage], current_best ].max
+
     session[:quiz_attempt] = nil
   end
 
