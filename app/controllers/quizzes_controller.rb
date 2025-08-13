@@ -45,42 +45,46 @@ class QuizzesController < ApplicationController
   end
 
   def start
-    # @quiz already set by before_action
-    session[:quiz_attempt] = nil  # Clear previous attempt
+    session[:quiz_attempt] = {
+      "answers" => {},
+      "started_at" => Time.current
+    }
+    redirect_to take_quiz_path(@quiz, question: 1)
   end
 
   def take
-    # @quiz already set by before_action
     @current_question_number = params[:question]&.to_i || 1
-    @question = @quiz.questions.order(:created_at)[@current_question_number - 1]
-    @total_questions = @quiz.questions.count
-
+    @questions = @quiz.questions.order(:id)  # Or order(:position) if you have that column
+    @question = @questions[@current_question_number - 1]
+    @total_questions = @questions.count
+    
+    if @question.nil?
+      redirect_to quiz_path(@quiz), alert: "Question not found"
+      return
+    end
+    
+    # Check for existing answer
+    @selected_answer = session.dig(:quiz_attempt, "answers", @question.id.to_s)
+    
     Rails.logger.debug "=== TAKE ACTION ==="
-    Rails.logger.debug "Current question: #{@current_question_number}"
-    Rails.logger.debug "Question ID: #{@question&.id}"
-    Rails.logger.debug "Session data: #{session[:quiz_attempt]}"
-    Rails.logger.debug "Looking for answer: #{session.dig(:quiz_attempt, 'answers', @question&.id.to_s)}"
+    Rails.logger.debug "Question position: #{@current_question_number} of #{@total_questions}"
+    Rails.logger.debug "Question ID: #{@question.id}"
+    Rails.logger.debug "Existing answer: #{@selected_answer}"
   end
 
   def answer
-    # Initialize session structure if needed
-    session[:quiz_attempt] ||= {}
-    session[:quiz_attempt]["answers"] ||= {}
-
-    # Store the answer
+    session[:quiz_attempt] ||= { "answers" => {} }
     session[:quiz_attempt]["answers"][params[:question_id]] = params[:answer_ids]
-    session[:quiz_attempt]["current_question"] = params[:current_question]
-
+    
     Rails.logger.debug "=== ANSWER ACTION ==="
     Rails.logger.debug "Question ID: #{params[:question_id]}"
     Rails.logger.debug "Answer ID: #{params[:answer_ids]}"
-    Rails.logger.debug "Session after storing: #{session[:quiz_attempt]}"
-
-    next_question = params[:current_question].to_i + 1
-
-    # @quiz already set by before_action
-    if next_question <= @quiz.questions.count
-      redirect_to take_quiz_path(@quiz, question: next_question)
+    Rails.logger.debug "All answers so far: #{session[:quiz_attempt]["answers"]}"
+    
+    next_position = params[:question].to_i + 1
+    
+    if next_position <= @quiz.questions.count
+      redirect_to take_quiz_path(@quiz, question: next_position)
     else
       redirect_to results_quiz_path(@quiz)
     end

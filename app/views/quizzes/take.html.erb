@@ -15,26 +15,29 @@
     <div class="mb-8">
       <h3 class="text-xl font-semibold mb-6"><%= @question.question_text %></h3>
       
-      <%= form_with url: answer_quiz_path(@quiz), method: :post, local: true, class: "space-y-4" do |form| %>
-        <%= hidden_field_tag :question_id, @question.id %>
-        <%= hidden_field_tag :current_question, @current_question_number %>
-        
-        <!-- Answer Options -->
-        <div class="space-y-3">
-          <% @question.answers.each do |answer| %>
-            <label class="flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
-              <%= radio_button_tag :answer_ids, answer.id, 
-                session.dig("quiz_attempt", "answers", @question.id.to_s) == answer.id.to_s,
-                class: "mt-1" %>
-              <span class="flex-1"><%= answer.answer_text %></span>
-            </label>
-          <% end %>
-        </div>
+        <%= form_with url: answer_quiz_path(@quiz), method: :post, local: true do |form| %>
+          <%= hidden_field_tag :question_id, @question.id %>
+          <%= hidden_field_tag :question, @current_question_number %>  <!-- Pass position, not ID -->
+          
+          <div class="space-y-3">
+            <% @question.answers.each do |answer| %>
+              <label class="flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                <%= radio_button_tag :answer_ids, 
+                                  answer.id, 
+                                  @selected_answer == answer.id.to_s,
+                                  class: "mt-1" %>
+                <span class="flex-1"><%= answer.answer_text %></span>
+              </label>
+            <% end %>
+          </div>
         
         <!-- Navigation -->
         <div class="flex justify-between items-center pt-6">
           <% if @current_question_number > 1 %>
-          <%= link_to "Previous", take_quiz_path(@quiz, question: @current_question_number - 1), class: "btn-cancel" %>
+            <%= link_to "Previous", 
+                take_quiz_path(@quiz, question: @current_question_number - 1), 
+                class: "btn-cancel",
+                data: { turbo_prefetch: false } %>
           <% else %>
             <div></div>
           <% end %>
