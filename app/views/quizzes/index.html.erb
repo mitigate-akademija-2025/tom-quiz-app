@@ -4,7 +4,9 @@
       
       <div class="quiz-card">
         <div class="flex justify-between items-start mb-4">
-          <h3 class="card-title flex-1"><%= quiz.title %></h3>
+          <h3 class="card-title flex-1">
+          <%= link_to quiz.title, start_quiz_path(quiz), class: "card-title-link" %>   
+          </h3>
           <%= render "quiz_card_dropdown", quiz: quiz %>
         </div>
         

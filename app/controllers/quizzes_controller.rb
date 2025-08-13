@@ -44,6 +44,10 @@ class QuizzesController < ApplicationController
     redirect_to quizzes_path, notice: "Quiz was successfully deleted.", status: :see_other
   end
 
+  def start
+    @quiz = Quiz.find(params[:id])
+  end
+
   private
 
   def set_quiz
