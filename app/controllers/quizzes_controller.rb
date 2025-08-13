@@ -81,16 +81,20 @@ class QuizzesController < ApplicationController
   end
 
   def results
-    # Eager load questions and answers to avoid N+1
     @quiz = Quiz.includes(questions: :answers).find(params[:id])
     @answers = session.dig(:quiz_attempt, "answers") || {}
     @score = calculate_score(@quiz, @answers)
-
+    
+    # Generate QR code and share URL
+    results_service = QuizResultsService.new(@quiz, @answers, @score)
+    @qr_svg = results_service.generate_qr_code
+    @share_url = results_service.generate_share_url
+    
     # Store best score
     session[:best_scores] ||= {}
     current_best = session[:best_scores][@quiz.id.to_s] || 0
-    session[:best_scores][@quiz.id.to_s] = [ @score[:percentage], current_best ].max
-
+    session[:best_scores][@quiz.id.to_s] = [@score[:percentage], current_best].max
+    
     session[:quiz_attempt] = nil
   end
 

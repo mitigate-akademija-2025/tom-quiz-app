@@ -70,6 +70,19 @@
     <div class="text-center space-x-4">
       <%= link_to "Retake Quiz", start_quiz_path(@quiz), class: "btn-secondary" %>
       <%= link_to "All Quizzes", quizzes_path, class: "btn-primary" %>
+            <div class="text-center my-8 p-6 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold mb-4">Share Your Results!</h3>
+        <p class="text-sm text-gray-600 mb-4">Scan this QR code with your phone to view and share results</p>
+        
+        <div class="flex justify-center mb-4">
+            <%= @qr_svg.html_safe %>
+        </div>
+        
+        <p class="text-xs text-gray-500">Or copy link:</p>
+        <input type="text" value="<%= @share_url %>" 
+                class="text-xs p-2 border rounded w-full max-w-md"
+                onclick="this.select();" readonly>
+        </div>
     </div>
   </div>
 </div>
