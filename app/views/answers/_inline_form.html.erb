@@ -1,4 +1,4 @@
-<div id="answer-form-<%= question.id %>" class="hidden mt-4">
+<div id="answer-form-<%= question.id %>" class="answer-form-inline hidden">
   <%= form_with model: [question.quiz, question, question.answers.build], local: true, class: "space-y-3" do |form| %>
     <div class="form-field">
       <%= form.text_area :answer_text, placeholder: "Enter answer text", class: "form-textarea", rows: 2 %>
@@ -9,7 +9,7 @@
       <%= form.label :is_correct, "Correct answer", class: "form-label-inline" %>
     </div>
     
-    <div class="flex space-x-2">
+    <div class="form-actions">
       <%= form.submit "Add Answer", class: "btn-secondary" %>
       <button type="button" onclick="hideAnswerForm(<%= question.id %>)" class="btn-cancel">Cancel</button>
     </div>

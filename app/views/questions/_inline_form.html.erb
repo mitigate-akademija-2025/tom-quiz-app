@@ -1,4 +1,4 @@
-<div id="question-form" class="hidden mt-6">
+<div id="question-form" class="form-inline hidden">
   <%= form_with model: [quiz, quiz.questions.build], local: true, class: "space-y-4" do |form| %>
     <div class="form-field">
       <%= form.text_area :question_text, placeholder: "Enter your question here", class: "form-textarea", rows: 3 %>
@@ -25,8 +25,7 @@
         <span>Impossible</span>
       </div>
     </div>
-
-    <div class="flex space-x-2">
+<div class="form-actions">
       <%= form.submit "Add Question", class: "btn-secondary" %>
       <button type="button" onclick="hideQuestionForm()" class="btn-cancel">Cancel</button>
     </div>

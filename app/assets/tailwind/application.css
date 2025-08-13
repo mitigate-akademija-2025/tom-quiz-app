@@ -202,4 +202,20 @@
   .questions-container {
     @apply space-y-3;
   }
+
+  .btn-cancel {
+  @apply bg-gray-100 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-200 transition font-medium;
+}
+
+.form-actions {
+  @apply flex justify-end space-x-2;
+}
+
+.form-inline {
+  @apply border border-gray-200 rounded-lg p-4 mt-4 mb-6 bg-gray-50;
+}
+
+.answer-form-inline {
+  @apply border border-gray-200 rounded-lg p-4 mt-4 mb-6 bg-gray-50;
+}
 }
