@@ -1,27 +1,26 @@
 <div class="page-container">
   <div class="quiz-grid">
     <% @quizzes.each do |quiz| %>
+      
       <div class="quiz-card">
-        <h3 class="card-title">
-          <%= link_to quiz.title, quiz_path(quiz), class: "card-title-link" %>
-        </h3>
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="card-title flex-1"><%= quiz.title %></h3>
+          <%= render "quiz_card_dropdown", quiz: quiz %>
+        </div>
         
-        <p class="card-description">
-          <%= quiz.description %>
-        </p>
+        <p class="card-description"><%= quiz.description %></p>
         
         <div class="flex justify-between items-center">
           <div class="card-meta">
             Created <%= time_ago_in_words(quiz.created_at) %> ago
           </div>
           
-          <div class="flex space-x-2">
-            <span class="category-badge">
-              <%= quiz.category.name %>
-            </span>
-          </div>
+          <span class="category-badge">
+            <%= quiz.category.name %>
+          </span>
         </div>
       </div>
-    <% end %>
+
+      <% end %>
   </div>
 </div>

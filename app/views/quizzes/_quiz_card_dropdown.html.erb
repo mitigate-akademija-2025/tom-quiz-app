@@ -1,0 +1,8 @@
+<%= render "shared/dropdown_menu" do %>
+  <%= link_to "Manage", quiz_path(quiz), class: "dropdown-item" %>
+  <%= link_to "Edit", edit_quiz_path(quiz), class: "dropdown-item" %>
+  <%= button_to "Delete", quiz_path(quiz),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" },
+                class: "dropdown-item-danger" %>
+<% end %>
