@@ -1,0 +1,75 @@
+<div class="page-content">
+  <div class="quiz-card max-w-4xl mx-auto">
+    <!-- Score Header -->
+    <div class="text-center mb-8">
+      <h1 class="page-header">Quiz Complete!</h1>
+      <div class="text-4xl font-bold text-blue-600 mb-2"><%= @score[:percentage] %>%</div>
+      <p class="text-gray-600 mb-2">You scored <%= @score[:correct] %> out of <%= @score[:total] %> questions correctly</p>
+      <% if session.dig(:best_scores, @quiz.id.to_s) %>
+        <p class="text-sm text-gray-500">Best score this session: <%= session.dig(:best_scores, @quiz.id.to_s) %>%</p>
+      <% end %>
+    </div>
+    
+    <!-- Question Review -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Question Review</h2>
+      
+      <% @quiz.questions.order(:id).each_with_index do |question, index| %>
+        <% 
+          user_answer_id = @answers[question.id.to_s]
+          # Use already loaded associations - no additional queries
+          answers_array = question.answers.to_a
+          user_answer = answers_array.find { |a| a.id.to_s == user_answer_id }
+          correct_answer = answers_array.find(&:is_correct?)
+          is_correct = user_answer&.is_correct?
+        %>
+        
+        <div class="quiz-card mb-4 <%= is_correct ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50' %>">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="font-semibold">Question <%= index + 1 %>: <%= question.question_text %></h3>
+            <span class="text-sm <%= is_correct ? 'text-green-600' : 'text-red-600' %> font-medium">
+              <%= is_correct ? '✓ Correct' : '✗ Incorrect' %>
+            </span>
+          </div>
+          
+          <!-- Answer Options -->
+          <div class="space-y-2">
+            <% answers_array.each do |answer| %>
+              <div class="flex items-center space-x-2 text-sm">
+                <% if answer.id == user_answer&.id %>
+                  <!-- User's answer -->
+                  <span class="w-4 h-4 rounded-full border-2 <%= answer.is_correct? ? 'bg-green-500 border-green-500' : 'bg-red-500 border-red-500' %>"></span>
+                  <span class="<%= answer.is_correct? ? 'text-green-700' : 'text-red-700' %> font-medium">
+                    <%= answer.answer_text %> (Your answer)
+                  </span>
+                <% elsif answer.is_correct? %>
+                  <!-- Correct answer (if user got it wrong) -->
+                  <span class="w-4 h-4 rounded-full border-2 bg-green-500 border-green-500"></span>
+                  <span class="text-green-700 font-medium">
+                    <%= answer.answer_text %> (Correct answer)
+                  </span>
+                <% else %>
+                  <!-- Other options -->
+                  <span class="w-4 h-4 rounded-full border-2 border-gray-300"></span>
+                  <span class="text-gray-600"><%= answer.answer_text %></span>
+                <% end %>
+              </div>
+            <% end %>
+            
+            <% unless user_answer %>
+              <div class="text-red-600 text-sm font-medium mt-2">
+                No answer selected - Correct answer: <%= correct_answer.answer_text %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="text-center space-x-4">
+      <%= link_to "Retake Quiz", start_quiz_path(@quiz), class: "btn-secondary" %>
+      <%= link_to "All Quizzes", quizzes_path, class: "btn-primary" %>
+    </div>
+  </div>
+</div>
