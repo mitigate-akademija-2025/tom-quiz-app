@@ -112,13 +112,13 @@ class QuizzesController < ApplicationController
       llm_provider: params[:llm_provider],
       author: params[:author]
     )
-    
+
     @quiz = service.generate
-    
+
     if @quiz
-      redirect_to @quiz, notice: 'Quiz generated successfully!'
+      redirect_to @quiz, notice: "Quiz generated successfully!"
     else
-      redirect_to generate_quizzes_path, alert: 'Failed to generate quiz'
+      redirect_to generate_quizzes_path, alert: "Failed to generate quiz"
     end
   end
 
@@ -134,7 +134,7 @@ class QuizzesController < ApplicationController
   end
 
   def quiz_params
-    params.expect(quiz: [:title, :description, :category_id, :language, :author])
+    params.expect(quiz: [ :title, :description, :category_id, :language, :author ])
   end
 
   def calculate_score(quiz, answers)

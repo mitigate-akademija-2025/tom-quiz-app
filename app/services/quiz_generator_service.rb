@@ -1,5 +1,5 @@
 class QuizGeneratorService
-  def initialize(topic:, question_count: 10, category_id: nil, language: 'english', llm_provider: 'openai', author: nil)
+  def initialize(topic:, question_count: 10, category_id: nil, language: "english", llm_provider: "openai", author: nil)
     @topic = topic
     @question_count = question_count
     @category_id = category_id
@@ -26,7 +26,7 @@ class QuizGeneratorService
       Generate a #{@question_count}-question quiz about #{@topic} in #{@language.capitalize}.
       Mix difficulty levels randomly.
       ALL text must be in #{@language.capitalize} language.
-      
+
       Return as JSON:
       {
         "title": "Creative quiz title",
@@ -72,8 +72,8 @@ def create_quiz(data)
 
   ActiveRecord::Base.transaction do
     quiz = Quiz.create!(
-        title: data['title'],
-        description: data['description'],
+        title: data["title"],
+        description: data["description"],
         category_id: @category_id,
         language: @language,
         author: @author
