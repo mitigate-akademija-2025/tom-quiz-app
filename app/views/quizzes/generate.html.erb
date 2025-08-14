@@ -29,6 +29,17 @@
       </div>
 
       <div class="mb-4">
+        <%= form.label :llm_provider, "AI Provider", class: "block mb-2" %>
+        <%= form.select :llm_provider, 
+            options_for_select([
+              ['OpenAI GPT-3.5', 'openai'],
+              ['Google Gemini', 'gemini']
+            ]),
+            {}, 
+            class: "w-full p-2 border rounded" %>
+      </div>
+
+      <div class="mb-4">
       <%= form.label :language, "Quiz Language", class: "block mb-2" %>
       <%= form.select :language, 
           options_for_select([

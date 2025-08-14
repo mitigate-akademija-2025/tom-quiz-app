@@ -108,15 +108,16 @@ class QuizzesController < ApplicationController
       topic: params[:topic],
       question_count: params[:question_count].to_i,
       category_id: params[:category_id],
-      language: params[:language]
+      language: params[:language],
+      llm_provider: params[:llm_provider]
     )
-
+    
     @quiz = service.generate
-
+    
     if @quiz
-      redirect_to @quiz, notice: "Quiz generated successfully!"
+      redirect_to @quiz, notice: 'Quiz generated successfully!'
     else
-      redirect_to generate_quizzes_path, alert: "Failed to generate quiz"
+      redirect_to generate_quizzes_path, alert: 'Failed to generate quiz'
     end
   end
 

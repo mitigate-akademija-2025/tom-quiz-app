@@ -1,9 +1,10 @@
 class QuizGeneratorService
-  def initialize(topic:, question_count: 10, category_id: nil, language: "english")
+  def initialize(topic:, question_count: 10, category_id: nil, language: 'english', llm_provider: 'openai')
     @topic = topic
     @question_count = question_count
     @category_id = category_id
     @language = language
+    @llm_provider = llm_provider
   end
 
   def generate
@@ -21,32 +22,32 @@ class QuizGeneratorService
 
   def build_prompt
     <<~PROMPT
-        Generate a #{@question_count}-question quiz about #{@topic} in #{@language.capitalize}.
-        Mix difficulty levels randomly.
-        ALL text must be in #{@language.capitalize} language.
-
-        Return as JSON:
-        {
-        "title": "Quiz title",
-        "description": "Brief description",
+      Generate a #{@question_count}-question quiz about #{@topic} in #{@language.capitalize}.
+      Mix difficulty levels randomly.
+      ALL text must be in #{@language.capitalize} language.
+      
+      Return as JSON:
+      {
+        "title": "Creative quiz title",
+        "description": "Engaging 2-3 sentence description that explains what participants will learn and why this quiz is interesting",
         "questions": [
-            {
+          {
             "question_text": "Question here?",
             "difficulty": 1-3 (1=easy, 2=medium, 3=hard),
             "answers": [
-                {"text": "Answer 1", "correct": false},
-                {"text": "Answer 2", "correct": true},
-                {"text": "Answer 3", "correct": false},
-                {"text": "Answer 4", "correct": false}
+              {"text": "Answer 1", "correct": false},
+              {"text": "Answer 2", "correct": true},
+              {"text": "Answer 3", "correct": false},
+              {"text": "Answer 4", "correct": false}
             ]
-            }
+          }
         ]
-        }
+      }
     PROMPT
   end
 
   def fetch_from_llm(prompt)
-    client = LlmClient.new
+    client = LlmClient.new(@llm_provider)
     client.generate(prompt)
   end
 
