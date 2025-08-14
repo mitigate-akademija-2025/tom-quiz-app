@@ -36,7 +36,7 @@
           <% if @current_question_number > 1 %>
             <%= link_to "Previous", 
                 take_quiz_path(@quiz, question: @current_question_number - 1), 
-                class: "btn-cancel",
+                class: "btn-secondary",
                 data: { turbo_prefetch: false } %>
           <% else %>
             <div></div>
