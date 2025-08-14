@@ -1,28 +1,37 @@
 <div class="page-container">
-  <div class="quiz-grid">
-    <% @quizzes.each do |quiz| %>
-      
-      <div class="quiz-card">
-        <div class="flex justify-between items-start mb-4">
-          <h3 class="card-title flex-1">
-          <%= link_to quiz.title, start_quiz_path(quiz), class: "card-title-link" %>   
-          </h3>
-          <%= render "quiz_card_dropdown", quiz: quiz %>
-        </div>
-        
-        <p class="card-description"><%= quiz.description %></p>
-        
-        <div class="flex justify-between items-center">
-          <div class="card-meta">
-            Created <%= time_ago_in_words(quiz.created_at) %> ago
-          </div>
-          
-          <span class="category-badge">
-            <%= quiz.category.name %>
-          </span>
-        </div>
-      </div>
+ <div class="quiz-grid">
+   <% @quizzes.each do |quiz| %>
+     
+     <div class="quiz-card">
+       <div class="flex justify-between items-start mb-4">
+         <h3 class="card-title flex-1">
+         <%= link_to quiz.title, start_quiz_path(quiz), class: "card-title-link" %>   
+         </h3>
+         <%= render "quiz_card_dropdown", quiz: quiz %>
+       </div>
+       
+       <p class="card-description"><%= quiz.description %></p>
+       
+       <div class="flex justify-between items-end mt-auto">
+         <div>
+        <% if quiz.author.present? %>
+           <span class="text-xs text-gray-500">
+             by <%= quiz.author %>
+           </span>
+           <% end %>
+           <div class="card-meta mt-2">
+             Created <%= time_ago_in_words(quiz.created_at) %> ago
+           </div>
+         </div>
+         
+ 
 
-      <% end %>
-  </div>
+                      <span class="category-badge">
+             <%= quiz.category.name %>
+           </span>
+       </div>
+     </div>
+
+   <% end %>
+ </div>
 </div>

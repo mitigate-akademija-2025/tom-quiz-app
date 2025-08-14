@@ -5,7 +5,7 @@ class QuizGeneratorService
     @category_id = category_id
     @language = language
     @llm_provider = llm_provider
-    @author = author || @llm_provider.capitalize
+    @author = author.presence || @llm_provider.capitalize
   end
 
   def generate
