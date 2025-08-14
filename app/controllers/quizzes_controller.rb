@@ -109,7 +109,8 @@ class QuizzesController < ApplicationController
       question_count: params[:question_count].to_i,
       category_id: params[:category_id],
       language: params[:language],
-      llm_provider: params[:llm_provider]
+      llm_provider: params[:llm_provider],
+      author: params[:author]
     )
     
     @quiz = service.generate
@@ -133,7 +134,7 @@ class QuizzesController < ApplicationController
   end
 
   def quiz_params
-    params.expect(quiz: [ :title, :description, :category_id ])
+    params.expect(quiz: [:title, :description, :category_id, :language, :author])
   end
 
   def calculate_score(quiz, answers)

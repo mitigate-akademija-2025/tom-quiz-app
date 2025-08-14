@@ -1,10 +1,11 @@
 class QuizGeneratorService
-  def initialize(topic:, question_count: 10, category_id: nil, language: 'english', llm_provider: 'openai')
+  def initialize(topic:, question_count: 10, category_id: nil, language: 'english', llm_provider: 'openai', author: nil)
     @topic = topic
     @question_count = question_count
     @category_id = category_id
     @language = language
     @llm_provider = llm_provider
+    @author = author || @llm_provider.capitalize
   end
 
   def generate
@@ -71,11 +72,12 @@ def create_quiz(data)
 
   ActiveRecord::Base.transaction do
     quiz = Quiz.create!(
-      title: data["title"],
-      description: data["description"],
-      category_id: @category_id,
-      language: @language
-    )
+        title: data['title'],
+        description: data['description'],
+        category_id: @category_id,
+        language: @language,
+        author: @author
+      )
 
     data["questions"].each do |q_data|
       question = quiz.questions.create!(

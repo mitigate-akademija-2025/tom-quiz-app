@@ -10,6 +10,13 @@
             class: "w-full p-2 border rounded",
             required: true %>
       </div>
+
+            <div class="mb-4">
+        <%= form.label :author, "Your Name", class: "block mb-2" %>
+        <%= form.text_field :author, 
+            placeholder: "Enter your name", 
+            class: "w-full p-2 border rounded" %>
+      </div>
       
       <div class="mb-4">
         <%= form.label :question_count, "Number of Questions", class: "block mb-2" %>
