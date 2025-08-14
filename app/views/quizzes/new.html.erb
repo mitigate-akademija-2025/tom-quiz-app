@@ -1,4 +1,21 @@
 <div class="page-content">
   <h1 class="page-header">Create New Quiz</h1>
-  <%= render "form", quiz: @quiz %>
+  
+  <div class="grid grid-cols-2 gap-4 mb-6">
+    <%= link_to generate_quizzes_path, class: "text-center p-6 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition" do %>
+      <div class="text-4xl mb-2">🤖</div>
+      <h3 class="font-semibold">Generate with AI</h3>
+      <p class="text-sm text-gray-600 mt-2">Let AI create a quiz for you</p>
+    <% end %>
+    
+    <div class="text-center p-6 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition cursor-pointer" onclick="document.getElementById('manual-form').classList.toggle('hidden')">
+      <div class="text-4xl mb-2">✏️</div>
+      <h3 class="font-semibold">Create Manually</h3>
+      <p class="text-sm text-gray-600 mt-2">Build your own quiz</p>
+    </div>
+  </div>
+  
+  <div id="manual-form" class="hidden">
+    <%= render "form", quiz: @quiz %>
+  </div>
 </div>
