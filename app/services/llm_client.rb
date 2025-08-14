@@ -28,9 +28,13 @@ class LlmClient
     request["Authorization"] = "Bearer #{ENV['OPENAI_API_KEY']}"
     request["Content-Type"] = "application/json"
     request.body = {
-      model: "gpt-3.5-turbo",
-      messages: [ { role: "user", content: prompt } ],
-      temperature: 0.7
+      model: "gpt-4.1-mini",
+      messages: [
+        { role: "system", content: "You are a helpful, precise assistant." },
+        { role: "user", content: prompt }
+      ],
+      temperature: 0.7,
+      max_tokens: 2048 # allows longer, more detailed answers
     }.to_json
 
     response = http.request(request)
@@ -46,14 +50,16 @@ class LlmClient
     request = Net::HTTP::Post.new(uri)
     request["Content-Type"] = "application/json"
     request.body = {
-      contents: [ {
-        parts: [ {
-          text: prompt
-        } ]
-      } ],
+      contents: [
+        {
+          parts: [
+            { text: prompt }
+          ]
+        }
+      ],
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 2048
+        maxOutputTokens: 2048 # matches OpenAI for fair comparison
       }
     }.to_json
 
