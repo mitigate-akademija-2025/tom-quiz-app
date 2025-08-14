@@ -12,14 +12,6 @@
       </div>
       
       <div class="mb-4">
-        <%= form.label :difficulty, "Difficulty", class: "block mb-2" %>
-        <%= form.select :difficulty, 
-            options_for_select([['Easy', 'easy'], ['Medium', 'medium'], ['Hard', 'hard']]),
-            {}, 
-            class: "w-full p-2 border rounded" %>
-      </div>
-      
-      <div class="mb-4">
         <%= form.label :question_count, "Number of Questions", class: "block mb-2" %>
         <%= form.number_field :question_count, 
             value: 10, 

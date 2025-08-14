@@ -3,17 +3,17 @@ Rails.application.routes.draw do
     resources :questions do
       resources :answers, except: [ :index, :show ]
     end
-    
+
     member do
-      get 'start'
-      get 'take'
-      post 'answer'
-      get 'results'
+      get "start"
+      get "take"
+      post "answer"
+      get "results"
     end
-    
+
     collection do
-      get 'generate'
-      post 'create_from_ai'
+      get "generate"
+      post "create_from_ai"
     end
   end
 
