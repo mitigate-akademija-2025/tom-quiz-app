@@ -11,6 +11,8 @@ Things you may want to cover:
 
 * Configuration
 
+ Use `db:seed` to populate the quiz categories table with initial data.
+
 * Database creation
 
 * Database initialization
