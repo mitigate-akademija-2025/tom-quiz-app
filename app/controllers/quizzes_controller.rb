@@ -107,7 +107,8 @@ class QuizzesController < ApplicationController
     service = QuizGeneratorService.new(
       topic: params[:topic],
       question_count: params[:question_count].to_i,
-      category_id: params[:category_id]
+      category_id: params[:category_id],
+      language: params[:language]
     )
 
     @quiz = service.generate

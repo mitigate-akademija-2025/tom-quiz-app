@@ -27,6 +27,25 @@
             { prompt: "Select category" },
             class: "w-full p-2 border rounded" %>
       </div>
+
+      <div class="mb-4">
+      <%= form.label :language, "Quiz Language", class: "block mb-2" %>
+      <%= form.select :language, 
+          options_for_select([
+            ['English', 'english'],
+            ['Latviski', 'latvian'],
+            ['Spanish', 'spanish'],
+            ['French', 'french'],
+            ['German', 'german'],
+            ['Italian', 'italian'],
+            ['Portuguese', 'portuguese'],
+            ['Russian', 'russian'],
+            ['Chinese', 'chinese'],
+            ['Japanese', 'japanese']
+          ]),
+          {}, 
+          class: "w-full p-2 border rounded" %>
+    </div>
       
       <%= form.submit "Generate Quiz", class: "btn-primary w-full" %>
     <% end %>
