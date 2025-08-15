@@ -1,0 +1,5 @@
+class AddUserToQuizzes < ActiveRecord::Migration[8.0]
+  def change
+    add_reference :quizzes, :user, null: false, foreign_key: true
+  end
+end
