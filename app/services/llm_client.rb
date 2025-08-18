@@ -2,8 +2,16 @@ require "net/http"
 require "json"
 
 class LlmClient
-  def initialize(provider = "openai")
+  def initialize(provider = 'openai', user = nil)
     @provider = provider
+    @api_key = case @provider
+    when 'openai'
+      user&.openai_api_key
+    when 'gemini'  
+      user&.gemini_api_key
+    end
+    
+    raise "No API key available" if @api_key.blank?
   end
 
   def generate(prompt)

@@ -2,70 +2,81 @@
   <div class="quiz-card max-w-2xl mx-auto">
     <h1 class="page-header">Generate Quiz with AI</h1>
     
-    <%= form_with url: create_from_ai_quizzes_path, local: true do |form| %>
-      <div class="mb-4">
-        <%= form.label :topic, "Quiz Topic", class: "block mb-2" %>
-        <%= form.text_field :topic, 
-            placeholder: "e.g., Ruby on Rails, World History, Science", 
-            class: "w-full p-2 border rounded",
-            required: true %>
-      </div>
+    <% if @can_generate %>
 
-            <div class="mb-4">
-        <%= form.label :author, "Your Name", class: "block mb-2" %>
-        <%= form.text_field :author, 
-            placeholder: "Enter your name", 
-            class: "w-full p-2 border rounded" %>
-      </div>
-      
-      <div class="mb-4">
-        <%= form.label :question_count, "Number of Questions", class: "block mb-2" %>
-        <%= form.number_field :question_count, 
-            value: 10, 
-            min: 5, 
-            max: 20,
-            class: "w-full p-2 border rounded" %>
-      </div>
-      
-      <div class="mb-4">
-        <%= form.label :category_id, "Category", class: "block mb-2" %>
-        <%= form.select :category_id, 
-            options_from_collection_for_select(Category.all, :id, :name),
-            { prompt: "Select category" },
-            class: "w-full p-2 border rounded" %>
-      </div>
+      <%= form_with url: create_from_ai_quizzes_path, local: true do |form| %>
+        <div class="mb-4">
+          <%= form.label :topic, "Quiz Topic", class: "block mb-2" %>
+          <%= form.text_field :topic, 
+              placeholder: "e.g., Ruby on Rails, World History, Science", 
+              class: "w-full p-2 border rounded",
+              required: true %>
+        </div>
 
-      <div class="mb-4">
-        <%= form.label :llm_provider, "AI Provider", class: "block mb-2" %>
-        <%= form.select :llm_provider, 
+              <div class="mb-4">
+          <%= form.label :author, "Your Name", class: "block mb-2" %>
+          <%= form.text_field :author, 
+              placeholder: "Enter your name", 
+              class: "w-full p-2 border rounded" %>
+        </div>
+        
+        <div class="mb-4">
+          <%= form.label :question_count, "Number of Questions", class: "block mb-2" %>
+          <%= form.number_field :question_count, 
+              value: 10, 
+              min: 5, 
+              max: 20,
+              class: "w-full p-2 border rounded" %>
+        </div>
+        
+        <div class="mb-4">
+          <%= form.label :category_id, "Category", class: "block mb-2" %>
+          <%= form.select :category_id, 
+              options_from_collection_for_select(Category.all, :id, :name),
+              { prompt: "Select category" },
+              class: "w-full p-2 border rounded" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :llm_provider, "AI Provider", class: "block mb-2" %>
+          <%= form.select :llm_provider, 
+              options_for_select([
+                ['OpenAI 4.1-mini', 'openai'],
+                ['Google Gemini', 'gemini']
+              ]),
+              {}, 
+              class: "w-full p-2 border rounded" %>
+        </div>
+
+        <div class="mb-4">
+        <%= form.label :language, "Quiz Language", class: "block mb-2" %>
+        <%= form.select :language, 
             options_for_select([
-              ['OpenAI 4.1-mini', 'openai'],
-              ['Google Gemini', 'gemini']
+              ['English', 'english'],
+              ['Latviski', 'latvian'],
+              ['Spanish', 'spanish'],
+              ['French', 'french'],
+              ['German', 'german'],
+              ['Italian', 'italian'],
+              ['Portuguese', 'portuguese'],
+              ['Russian', 'russian'],
+              ['Chinese', 'chinese'],
+              ['Japanese', 'japanese']
             ]),
             {}, 
             class: "w-full p-2 border rounded" %>
       </div>
+        
+        <%= form.submit "Generate Quiz", class: "btn-primary w-full" %>
+      <% end %>
 
-      <div class="mb-4">
-      <%= form.label :language, "Quiz Language", class: "block mb-2" %>
-      <%= form.select :language, 
-          options_for_select([
-            ['English', 'english'],
-            ['Latviski', 'latvian'],
-            ['Spanish', 'spanish'],
-            ['French', 'french'],
-            ['German', 'german'],
-            ['Italian', 'italian'],
-            ['Portuguese', 'portuguese'],
-            ['Russian', 'russian'],
-            ['Chinese', 'chinese'],
-            ['Japanese', 'japanese']
-          ]),
-          {}, 
-          class: "w-full p-2 border rounded" %>
-    </div>
-      
-      <%= form.submit "Generate Quiz", class: "btn-primary w-full" %>
+    <% else %>
+      <div class="text-center p-6">
+        <p class="mb-4">You need an API key to generate quizzes with AI</p>
+        <%= link_to "Add API Key", edit_user_registration_path, class: "btn-primary" %>
+        <p class="mt-4 text-sm text-gray-600">Or <%= link_to "create a quiz manually", new_quiz_path %></p>
+      </div>
     <% end %>
+
   </div>
 </div>
