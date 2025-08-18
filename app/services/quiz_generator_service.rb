@@ -76,7 +76,8 @@ def create_quiz(data)
         description: data["description"],
         category_id: @category_id,
         language: @language,
-        author: @author
+        author: @author,
+        user: @user
       )
 
     data["questions"].each do |q_data|

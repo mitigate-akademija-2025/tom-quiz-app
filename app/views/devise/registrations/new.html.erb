@@ -1,0 +1,36 @@
+<div class="page-content">
+ <div class="quiz-card max-w-md mx-auto">
+   <h2 class="page-header text-center">Sign Up</h2>
+
+   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+     <%= render "devise/shared/error_messages", resource: resource %>
+
+     <div class="form-field">
+       <%= f.label :email, class: "form-label" %>
+       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
+     </div>
+
+     <div class="form-field">
+       <%= f.label :password, class: "form-label" %>
+       <%= f.password_field :password, autocomplete: "new-password", class: "form-input" %>
+       <% if @minimum_password_length %>
+         <p class="text-xs text-gray-600 mt-1">(<%= @minimum_password_length %> characters minimum)</p>
+       <% end %>
+     </div>
+
+     <div class="form-field">
+       <%= f.label :password_confirmation, class: "form-label" %>
+       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input" %>
+     </div>
+
+     <div class="form-actions">
+       <%= f.submit "Sign up", class: "btn-primary w-full" %>
+     </div>
+   <% end %>
+
+   <div class="text-center mt-4 text-sm">
+     Already have an account? 
+     <%= link_to "Log in", new_session_path(resource_name), class: "text-blue-600 hover:text-blue-800" %>
+   </div>
+ </div>
+</div>

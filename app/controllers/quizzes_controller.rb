@@ -16,7 +16,7 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    @quiz = Quiz.new(quiz_params)
+    @quiz = current_user.quizzes.build(quiz_params)
 
     if @quiz.save
       redirect_to @quiz, notice: "Quiz was successfully created.", status: :see_other
@@ -110,7 +110,8 @@ class QuizzesController < ApplicationController
       category_id: params[:category_id],
       language: params[:language],
       llm_provider: params[:llm_provider],
-      author: params[:author]
+      author: params[:author],
+      user: current_user
     )
 
     @quiz = service.generate
