@@ -6,17 +6,9 @@
         <%= link_to "QUIZER", root_path, class: "text-gray-900 hover:text-gray-600" %>
       </div>
       
-      <!-- Only New Quiz link -->
-      <div>
-      
-      <% unless current_page?(new_quiz_path) %>
-
-        <%= link_to new_quiz_path, class: "btn-create", title: "Create Quiz" do %>
-          <span class="text-3xl font-light leading-none">+</span>
-        <% end %>
-
-      <% end %>
-
+      <div class="flex space-x-4">
+          <%= button_to "Iziet", session_path, class: "btn-primary text-lg px-8 py-3", method: :delete if authenticated? %>
+          <%= link_to "New quiz", new_quiz_path, class: "btn-primary text-lg px-8 py-3" if authenticated? %>
       </div>
     </div>
   </div>

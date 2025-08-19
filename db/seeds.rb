@@ -26,3 +26,5 @@ categories.each do |name|
 end
 
 puts "Created #{Category.count} categories"
+
+User.create! email_address: "tom@quizapp.lv", password: "123"
