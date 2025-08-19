@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   resources :quizzes do
     resources :questions do
       resources :answers, except: [ :index, :show ]
