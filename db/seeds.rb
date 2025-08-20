@@ -27,4 +27,5 @@ end
 
 puts "Created #{Category.count} categories"
 
-User.create! email_address: "tom@quizapp.lv", password: "123"
+# User.create! email_address: "tom@quizapp.lv", password: "123"
+User.create! email_address: "test@test.lv", password: "123"

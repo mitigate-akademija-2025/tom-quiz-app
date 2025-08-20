@@ -1,6 +1,7 @@
 class QuizzesController < ApplicationController
   allow_unauthenticated_access only: %i[ index take start answer results]
-  before_action :set_quiz, only: [ :show, :edit, :update, :destroy, :start, :take, :answer, :results ]
+  before_action :set_quiz, only: [ :show, :start, :take, :answer, :results ]
+  before_action :set_user_quiz, only: [ :edit, :update, :destroy ]
   before_action :set_categories, only: [ :new, :edit, :create, :update ]
 
   def index
@@ -17,12 +18,10 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    @quiz = Quiz.new(quiz_params)
-
+    @quiz = Current.session.user.quizzes.build(quiz_params)
     if @quiz.save
       redirect_to @quiz, notice: "Quiz was successfully created.", status: :see_other
     else
-      # @categories already loaded by before_action
       render :new, status: :unprocessable_content
     end
   end
@@ -126,8 +125,16 @@ class QuizzesController < ApplicationController
 
   private
 
+  # For public actions (show, start, take, answer, results)
   def set_quiz
     @quiz = Quiz.find(params[:id])
+  end
+
+  # For authenticated actions (edit, update, destroy)
+  def set_user_quiz
+    @quiz = Current.session.user.quizzes.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to quizzes_path, alert: "You don't have permission to access that quiz"
   end
 
   def set_categories
