@@ -7,8 +7,9 @@
       </div>
       
       <div class="flex space-x-4">
-          <%= button_to "Iziet", session_path, class: "btn-primary text-lg px-8 py-3", method: :delete if authenticated? %>
           <%= link_to "New quiz", new_quiz_path, class: "btn-primary text-lg px-8 py-3" if authenticated? %>
+          <%= button_to "Iziet", session_path, class: "btn-primary text-lg px-8 py-3", method: :delete if authenticated? %>
+          <%= link_to "Login", new_session_path, class: "btn-primary text-lg px-8 py-3" unless authenticated? %>
       </div>
     </div>
   </div>

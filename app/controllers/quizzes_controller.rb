@@ -1,4 +1,5 @@
 class QuizzesController < ApplicationController
+  allow_unauthenticated_access only: %i[ index take start answer results]
   before_action :set_quiz, only: [ :show, :edit, :update, :destroy, :start, :take, :answer, :results ]
   before_action :set_categories, only: [ :new, :edit, :create, :update ]
 
