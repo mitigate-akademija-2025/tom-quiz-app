@@ -26,7 +26,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
+    @answer.destroy!
     redirect_to quiz_question_path(@quiz, @question), notice: "Answer was successfully deleted."
   end
 

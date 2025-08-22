@@ -1,6 +1,9 @@
 class QuestionsController < ApplicationController
+  allow_unauthenticated_access only: [:show]
   before_action :set_quiz
-  before_action :set_question, only: [ :show, :edit, :update, :destroy ]
+  before_action :authorize_quiz_owner, except: [:show]
+
+  before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   def new
     @question = @quiz.questions.build
@@ -33,7 +36,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
+    @question.destroy!
     redirect_to @quiz, notice: "Question was successfully deleted.", status: :see_other
   end
 
@@ -41,6 +44,12 @@ class QuestionsController < ApplicationController
 
   def set_quiz
     @quiz = Quiz.find(params[:quiz_id])
+  end
+
+  def authorize_quiz_owner
+    unless @quiz.user_id == Current.user&.id
+      redirect_to quizzes_path, alert: "Not authorized"
+    end
   end
 
   def set_question

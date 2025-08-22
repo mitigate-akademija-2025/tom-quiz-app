@@ -1,7 +1,10 @@
-<%= render "shared/dropdown_menu" do %>
-  <%= link_to "Edit", edit_quiz_question_answer_path(answer.question.quiz, answer.question, answer), class: "dropdown-item" %>
-  <%= button_to "Delete", quiz_question_answer_path(answer.question.quiz, answer.question, answer),
-                method: :delete,
-                data: { turbo_confirm: "Are you sure?" },
-                class: "dropdown-item-danger" %>
+<% if owner_of?(answer.question.quiz) %>
+  <%= render "shared/dropdown_menu" do %>
+    <%= link_to "Edit", edit_quiz_question_answer_path(answer.question.quiz, answer.question, answer), class: "dropdown-item" %>
+    
+    <%= button_to "Delete", quiz_question_answer_path(answer.question.quiz, answer.question, answer),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure?" },
+                  class: "dropdown-item dropdown-item-danger" %>
+  <% end %>
 <% end %>

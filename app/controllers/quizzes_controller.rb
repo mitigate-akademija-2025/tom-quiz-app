@@ -40,7 +40,7 @@ class QuizzesController < ApplicationController
   end
 
   def destroy
-    @quiz.destroy
+    @quiz.destroy!
     redirect_to quizzes_path, notice: "Quiz was successfully deleted.", status: :see_other
   end
 
@@ -132,7 +132,7 @@ class QuizzesController < ApplicationController
 
   # For authenticated actions (edit, update, destroy)
   def set_user_quiz
-    @quiz = Current.session.user.quizzes.find(params[:id])
+    @quiz = Current.user.quizzes.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to quizzes_path, alert: "You don't have permission to access that quiz"
   end
