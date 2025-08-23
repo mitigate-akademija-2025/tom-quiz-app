@@ -1,8 +1,8 @@
 class QuizzesController < ApplicationController
   allow_unauthenticated_access only: %i[ index take start answer results]
-  before_action :set_quiz, only: [ :show, :start, :take, :answer, :results ]
-  before_action :set_user_quiz, only: [ :edit, :update, :destroy ]
+  before_action :set_quiz, only: [ :show, :start, :take, :answer, :results, :edit, :update, :destroy ]
   before_action :set_categories, only: [ :new, :edit, :create, :update ]
+  before_action :authorize_owner!, only: [ :edit, :update, :destroy ]
 
   def index
     @quizzes = Quiz.all
@@ -18,7 +18,7 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    @quiz = Current.session.user.quizzes.build(quiz_params)
+    @quiz = current_user.quizzes.build(quiz_params)
     if @quiz.save
       redirect_to @quiz, notice: "Quiz was successfully created.", status: :see_other
     else
@@ -130,11 +130,10 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.find(params[:id])
   end
 
-  # For authenticated actions (edit, update, destroy)
-  def set_user_quiz
-    @quiz = Current.user.quizzes.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to quizzes_path, alert: "You don't have permission to access that quiz"
+  def authorize_owner!
+    unless owner_of?(@quiz)
+      redirect_to quizzes_path, alert: "Not authorized"
+    end
   end
 
   def set_categories

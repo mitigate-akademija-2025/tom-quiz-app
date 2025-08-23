@@ -9,7 +9,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to quiz_question_path(@quiz, @question), notice: "Answer was successfully added.", status: :see_other
     else
-      redirect_to quiz_question_path(@quiz, @question), alert: @answer.errors.full_messages.join(", "), status: :see_other
+      redirect_to quiz_question_path(@quiz, @question), alert: @answer.errors.full_messages.to_sentence, status: :see_other
     end
   end
 
