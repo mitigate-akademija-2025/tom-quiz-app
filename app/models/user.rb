@@ -4,4 +4,6 @@ class User < ApplicationRecord
   has_many :quizzes, dependent: :destroy
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  encrypts :api_key
 end

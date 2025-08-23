@@ -1,0 +1,25 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl mb-6">Profile</h1>
+  
+  <div class="space-y-4">
+    <div class="border rounded-lg p-4">
+      <p class="text-gray-600">Email</p>
+      <p class="font-medium"><%= @user.email_address %></p>
+      <%= link_to "Change email", edit_email_user_path(@user), class: "text-blue-600 hover:underline text-sm" %>
+    </div>
+    
+    <div class="border rounded-lg p-4">
+      <p class="text-gray-600">Password</p>
+      <p class="font-medium">••••••••</p>
+      <%= link_to "Change password", edit_password_user_path(@user), class: "text-blue-600 hover:underline text-sm" %>
+    </div>
+    
+    <div class="border rounded-lg p-4">
+      <p class="text-gray-600">API Key</p>
+      <p class="font-medium"><%= @user.api_key.present? ? "••••••••" : "Not set" %></p>
+      <%= link_to @user.api_key.present? ? "Update API key" : "Add API key", 
+          edit_api_key_user_path(@user), 
+          class: "text-blue-600 hover:underline text-sm" %>
+    </div>
+  </div>
+</div>

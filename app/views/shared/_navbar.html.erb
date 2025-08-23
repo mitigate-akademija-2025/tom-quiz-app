@@ -9,7 +9,7 @@
      <div class="flex space-x-4">
        <% if authenticated? %>
          <%= link_to "New quiz", new_quiz_path, class: "btn-primary text-lg px-8 py-3" %>
-         <%= link_to "Profile", edit_user_path(current_user), class: "btn-primary text-lg px-8 py-3" %>
+         <%= link_to "Profile", profile_user_path(current_user), class: "btn-primary text-lg px-8 py-3" %>
          <%= button_to "Sign out", session_path, class: "btn-primary text-lg px-8 py-3", method: :delete %>
        <% else %>
          <%= link_to "Login", new_session_path, class: "btn-primary text-lg px-8 py-3" %>

@@ -1,7 +1,17 @@
 Rails.application.routes.draw do
   resource :session
-  resources :users, only: [ :new, :create, :edit, :update ]
   resources :passwords, param: :token
+  resources :users, only: [ :new, :create ] do
+    member do
+      get :profile
+      get :edit_email
+      patch :update_email
+      get :edit_password
+      patch :update_password
+      get :edit_api_key
+      patch :update_api_key
+    end
+  end
   resources :quizzes do
     resources :questions do
       resources :answers, except: [ :index, :show ]

@@ -1,0 +1,22 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl mb-6">Manage API Key</h1>
+  
+  <%= form_with model: @user, url: update_api_key_user_path(@user), method: :patch, class: "contents" do |form| %>
+    <% if @user.errors.any? %>
+      <div class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block">
+        <%= @user.errors.full_messages.to_sentence %>
+      </div>
+    <% end %>
+    
+    <div class="my-5">
+      <%= form.label :api_key, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.password_field :api_key, placeholder: "Enter your API key", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      <p class="text-sm text-gray-500 mt-1">Your API key is encrypted and stored securely</p>
+    </div>
+    
+    <div class="flex gap-4">
+      <%= form.submit "Update API Key", class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
+      <%= link_to "Cancel", profile_user_path(@user), class: "rounded-md px-3.5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium" %>
+    </div>
+  <% end %>
+</div>
