@@ -46,10 +46,17 @@ class UsersController < ApplicationController
   end
 
   def update_api_key
-    if @user.update(api_key_params)
-      redirect_to profile_user_path(@user), notice: "API key updated"
+    if params[:remove_api_key] == "1"
+      @user.update!(api_key: nil)
+      redirect_to profile_user_path(@user), notice: "API key removed"
+    elsif params[:user][:api_key].present?
+      if @user.update(api_key_params)
+        redirect_to profile_user_path(@user), notice: "API key updated"
+      else
+        render :edit_api_key, status: :unprocessable_content
+      end
     else
-      render :edit_api_key, status: :unprocessable_content
+      redirect_to profile_user_path(@user), notice: "No changes made"
     end
   end
 

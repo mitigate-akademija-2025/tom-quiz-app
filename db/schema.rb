@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_20_061118) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_24_195034) do
   create_table "answers", force: :cascade do |t|
     t.integer "question_id", null: false
     t.text "answer_text"
@@ -65,6 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_061118) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "api_key"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
