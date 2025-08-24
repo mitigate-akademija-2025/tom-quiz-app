@@ -110,7 +110,8 @@ class QuizzesController < ApplicationController
       category_id: params[:category_id],
       language: params[:language],
       llm_provider: params[:llm_provider],
-      author: params[:author]
+      author: params[:author],
+      api_key: current_user.api_key
     )
 
     @quiz = service.generate
