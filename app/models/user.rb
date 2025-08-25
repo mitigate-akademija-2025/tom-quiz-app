@@ -5,5 +5,6 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
-  encrypts :api_key
+  encrypts :openai_api_key
+  encrypts :gemini_api_key
 end
