@@ -1,3 +1,7 @@
+KeyType.find_or_create_by(name: "openai")
+KeyType.find_or_create_by(name: "gemini")
+puts "Created #{KeyType.count} key types"
+
 categories = [
  "Science",
  "History",
