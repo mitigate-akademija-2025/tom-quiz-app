@@ -14,12 +14,8 @@
       <%= link_to "Change password", edit_password_user_path(@user), class: "text-blue-600 hover:underline text-sm" %>
     </div>
     
-    <div class="border rounded-lg p-4">
-      <p class="text-gray-600">API Key</p>
-      <p class="font-medium"><%= @user.api_key.present? ? "••••••••" : "Not set" %></p>
-      <%= link_to @user.api_key.present? ? "Update API key" : "Add API key", 
-          edit_api_key_user_path(@user), 
-          class: "text-blue-600 hover:underline text-sm" %>
-    </div>
+    <% KeyType.all.each do |key_type| %>
+      <%= render partial: "api_key_status", locals: {user: @user, key_type: key_type} %>
+    <% end %>
   </div>
 </div>

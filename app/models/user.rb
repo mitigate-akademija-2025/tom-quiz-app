@@ -6,4 +6,7 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
+  def api_key_for(key_type_name)
+    api_keys.includes(:key_type).find_by(key_types: { name: key_type_name.to_s })
+  end
 end
