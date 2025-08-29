@@ -100,14 +100,10 @@ class QuizzesController < ApplicationController
 
 
   def generate
-    @can_generate = current_user&.has_api_key?
+    # Show form
   end
 
   def create_from_ai
-    unless current_user.has_api_key?
-      redirect_to edit_user_registration_path, alert: "Please add an API key to generate quizzes"
-      return
-    end
     service = QuizGeneratorService.new(
       topic: params[:topic],
       question_count: params[:question_count].to_i,
