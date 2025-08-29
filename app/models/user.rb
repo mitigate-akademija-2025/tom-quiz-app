@@ -6,6 +6,28 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
+  # API key management methods
+  def update_api_key(key_type:, key_value: nil)
+    api_key = api_key_for(key_type.name) || api_keys.build(key_type: key_type)
+    api_key.new_key = key_value if key_value.present?
+
+    if api_key.save
+      { success: true, message: "#{key_type.name.humanize} API key updated.", record: api_key }
+    else
+      { success: false, message: "API key could not be updated.", record: api_key }
+    end
+  end
+
+  def remove_api_key(key_type:)
+    api_key = api_key_for(key_type.name)
+
+    if api_key&.destroy
+      { success: true, message: "#{key_type.name.humanize} API key removed." }
+    else
+      { success: false, message: "API key could not be removed." }
+    end
+  end
+
   def api_key_for(key_type_name)
     api_keys.includes(:key_type).find_by(key_types: { name: key_type_name.to_s })
   end

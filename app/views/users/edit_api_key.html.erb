@@ -1,42 +1,13 @@
 <div class="mx-auto md:w-2/3 w-full">
- <h1 class="font-bold text-4xl mb-6">
-   <%= @user.api_key.present? ? "Update API Key" : "Add API Key" %>
- </h1>
- 
- <% if @user.api_key.present? %>
-   <div class="mb-4 p-4 bg-blue-50 rounded">
-     <p class="text-sm text-gray-700 font-medium">You have an API key set.</p>
-     <p class="text-sm text-gray-600">Enter a new key below to replace it, or leave blank to keep current.</p>
-   </div>
- <% end %>
- 
- <%= form_with model: @user, url: update_api_key_user_path(@user), method: :patch, class: "contents" do |form| %>
-   <% if @user.errors.any? %>
-     <div class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block">
-       <%= @user.errors.full_messages.to_sentence %>
-     </div>
-   <% end %>
-   
-   <div class="my-5">
-     <%= form.label :api_key, "API Key", class: "block text-sm font-medium text-gray-700" %>
-     <%= form.text_field :api_key, 
-         placeholder: @user.api_key.present? ? "Enter new API key to replace existing" : "Enter your API key", 
-         class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-     <p class="text-sm text-gray-500 mt-1">Your API key is encrypted and stored securely</p>
-   </div>
-   
-   <% if @user.api_key.present? %>
-     <div class="my-3">
-       <%= check_box_tag :remove_api_key, "1", false, class: "mr-2" %>
-       <%= label_tag :remove_api_key, "Remove API key", class: "text-sm text-gray-600" %>
-     </div>
-   <% end %>
-   
-   <div class="flex gap-4">
-     <%= form.submit @user.api_key.present? ? "Update API Key" : "Add API Key", 
-         class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
-     <%= link_to "Cancel", profile_user_path(@user), 
-         class: "rounded-md px-3.5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium" %>
-   </div>
- <% end %>
+  <h1 class="font-bold text-4xl mb-6">
+    <%= @api_key.persisted? ? "Update #{@key_type.name.humanize} API Key" : "Add #{@key_type.name.humanize} API Key" %>
+  </h1>
+  
+  <% if @api_key.persisted? %>
+    <%= render partial: "update_api_key_form", locals: {user: @user, api_key: @api_key, key_type: @key_type} %>
+  <% else %>
+    <%= render partial: "add_api_key_form", locals: {user: @user, api_key: @api_key, key_type: @key_type} %>
+  <% end %>
+
+  <%= link_to "Cancel", profile_user_path(@user), class: "rounded-md px-3.5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium mt-4 block text-center" %>
 </div>
