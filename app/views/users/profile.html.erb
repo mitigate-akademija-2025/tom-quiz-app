@@ -17,5 +17,12 @@
     <% KeyType.all.each do |key_type| %>
       <%= render partial: "api_key_status", locals: {user: @user, key_type: key_type} %>
     <% end %>
+
+    <%= form_with url: user_path(@user), method: :delete do |form| %>
+      <%= form.button "Delete account",
+          data: { turbo_confirm: "Are you sure you want to delete your account? This cannot be undone." },
+          class: "rounded-lg py-3 px-5 bg-red-600 text-white font-medium" %>
+    <% end %>
+
   </div>
 </div>

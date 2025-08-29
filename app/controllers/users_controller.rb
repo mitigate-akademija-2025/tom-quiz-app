@@ -18,6 +18,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user.destroy
+    reset_session
+    redirect_to root_path, notice: "Your account has been deleted."
+  end
+
   def profile
   end
 

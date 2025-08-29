@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
-  resources :users, only: [ :new, :create ] do
+  resources :users, only: [ :new, :create, :destroy ] do
     member do
       get :profile
       get :edit_email
