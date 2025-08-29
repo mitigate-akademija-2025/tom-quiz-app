@@ -1,11 +1,12 @@
 class QuizGeneratorService
-  def initialize(topic:, question_count: 10, category_id: nil, language: "english", llm_provider: "openai", author: nil)
+  def initialize(topic:, question_count: 10, category_id: nil, language: "english", llm_provider: "openai", author: nil, api_key: nil)
     @topic = topic
     @question_count = question_count
     @category_id = category_id
     @language = language
     @llm_provider = llm_provider
     @author = author.presence || @llm_provider.capitalize
+    @api_key = api_key
   end
 
   def generate
@@ -48,7 +49,7 @@ class QuizGeneratorService
   end
 
   def fetch_from_llm(prompt)
-    client = LlmClient.new(@llm_provider)
+    client = LlmClient.new(@llm_provider, api_key: @api_key)
     client.generate(prompt)
   end
 

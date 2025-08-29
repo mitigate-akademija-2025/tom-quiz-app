@@ -1,6 +1,8 @@
 class QuizzesController < ApplicationController
-  before_action :set_quiz, only: [ :show, :edit, :update, :destroy, :start, :take, :answer, :results ]
+  allow_unauthenticated_access only: %i[ index take start answer results]
+  before_action :set_quiz, only: [ :show, :start, :take, :answer, :results, :edit, :update, :destroy ]
   before_action :set_categories, only: [ :new, :edit, :create, :update ]
+  before_action :authorize_owner!, only: [ :edit, :update, :destroy ]
 
   def index
     @quizzes = Quiz.all
@@ -17,11 +19,9 @@ class QuizzesController < ApplicationController
 
   def create
     @quiz = current_user.quizzes.build(quiz_params)
-
     if @quiz.save
       redirect_to @quiz, notice: "Quiz was successfully created.", status: :see_other
     else
-      # @categories already loaded by before_action
       render :new, status: :unprocessable_content
     end
   end
@@ -40,7 +40,7 @@ class QuizzesController < ApplicationController
   end
 
   def destroy
-    @quiz.destroy
+    @quiz.destroy!
     redirect_to quizzes_path, notice: "Quiz was successfully deleted.", status: :see_other
   end
 
@@ -115,7 +115,7 @@ class QuizzesController < ApplicationController
       language: params[:language],
       llm_provider: params[:llm_provider],
       author: params[:author],
-      user: current_user
+      api_key: current_user.api_key
     )
 
     @quiz = service.generate
@@ -130,8 +130,15 @@ class QuizzesController < ApplicationController
 
   private
 
+  # For public actions (show, start, take, answer, results)
   def set_quiz
     @quiz = Quiz.find(params[:id])
+  end
+
+  def authorize_owner!
+    unless owner_of?(@quiz)
+      redirect_to quizzes_path, alert: "Not authorized"
+    end
   end
 
   def set_categories

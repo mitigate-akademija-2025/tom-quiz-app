@@ -1,5 +1,18 @@
 Rails.application.routes.draw do
-  devise_for :users
+  resource :session
+  resources :passwords, param: :token
+  resources :users, only: [ :new, :create ] do
+    member do
+      get :profile
+      get :edit_email
+      patch :update_email
+      get :edit_password
+      patch :update_password
+      get "edit_api_key/:api_type", to: "users#edit_api_key", as: :edit_api_key
+      patch "update_api_key/:api_type", to: "users#update_api_key", as: :update_api_key
+      delete "destroy_api_key/:api_type", to: "users#destroy_api_key", as: :destroy_api_key
+    end
+  end
   resources :quizzes do
     resources :questions do
       resources :answers, except: [ :index, :show ]

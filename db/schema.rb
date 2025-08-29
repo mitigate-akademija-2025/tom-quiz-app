@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_15_090815) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_26_072637) do
   create_table "answers", force: :cascade do |t|
     t.integer "question_id", null: false
     t.text "answer_text"
@@ -20,12 +20,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_15_090815) do
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
+  create_table "api_keys", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "key_type_id", null: false
+    t.text "key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key_type_id"], name: "index_api_keys_on_key_type_id"
+    t.index ["user_id"], name: "index_api_keys_on_user_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "key_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_key_types_on_name", unique: true
   end
 
   create_table "questions", force: :cascade do |t|
@@ -51,22 +68,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_15_090815) do
     t.index ["user_id"], name: "index_quizzes_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+  create_table "sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "openai_api_key"
-    t.text "gemini_api_key"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "password_digest", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
   add_foreign_key "answers", "questions"
+  add_foreign_key "api_keys", "key_types"
+  add_foreign_key "api_keys", "users"
   add_foreign_key "questions", "quizzes"
   add_foreign_key "quizzes", "categories"
   add_foreign_key "quizzes", "users"
+  add_foreign_key "sessions", "users"
 end

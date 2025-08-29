@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  allow_unauthenticated_access only: [ :show ]
   before_action :set_quiz
   before_action :set_question, only: [ :show, :edit, :update, :destroy ]
 
@@ -16,7 +17,7 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to @quiz, notice: "Question was successfully added.", status: :see_other
     else
-      redirect_to @quiz, alert: @question.errors.full_messages.join(", "), status: :see_other
+      redirect_to @quiz, alert: @question.errors.full_messages.to_sentence, status: :see_other
     end
   end
 
@@ -33,7 +34,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
+    @question.destroy!
     redirect_to @quiz, notice: "Question was successfully deleted.", status: :see_other
   end
 

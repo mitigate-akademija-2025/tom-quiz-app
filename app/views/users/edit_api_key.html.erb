@@ -1,0 +1,13 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl mb-6">
+    <%= @api_key.persisted? ? "Update #{@key_type.name.humanize} API Key" : "Add #{@key_type.name.humanize} API Key" %>
+  </h1>
+  
+  <% if @api_key.persisted? %>
+    <%= render partial: "update_api_key_form", locals: {user: @user, api_key: @api_key, key_type: @key_type} %>
+  <% else %>
+    <%= render partial: "add_api_key_form", locals: {user: @user, api_key: @api_key, key_type: @key_type} %>
+  <% end %>
+
+  <%= link_to "Cancel", profile_user_path(@user), class: "rounded-md px-3.5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium mt-4 block text-center" %>
+</div>

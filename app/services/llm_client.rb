@@ -2,16 +2,9 @@ require "net/http"
 require "json"
 
 class LlmClient
-  def initialize(provider = 'openai', user = nil)
+  def initialize(provider = "openai", api_key: nil)
     @provider = provider
-    @api_key = case @provider
-    when 'openai'
-      user&.openai_api_key
-    when 'gemini'  
-      user&.gemini_api_key
-    end
-    
-    raise "No API key available" if @api_key.blank?
+    @api_key = api_key
   end
 
   def generate(prompt)
@@ -33,7 +26,7 @@ class LlmClient
     http.use_ssl = true
 
     request = Net::HTTP::Post.new(uri)
-    request["Authorization"] = "Bearer #{ENV['OPENAI_API_KEY']}"
+    request["Authorization"] = "Bearer #{@api_key}"
     request["Content-Type"] = "application/json"
     request.body = {
       model: "gpt-4.1-mini",
