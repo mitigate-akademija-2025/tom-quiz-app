@@ -25,6 +25,19 @@
   <body>
   <%= render 'shared/navbar' %>
   
+  <!-- Flash messages with components -->
+  <% if flash[:notice] %>
+    <div class="flash-success">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  
+  <% if flash[:alert] %>
+    <div class="flash-error">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
   <main class="main-container">
       <% if notice.present? %>
         <div class="flash-success"><%= notice %></div>
