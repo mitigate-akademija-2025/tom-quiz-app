@@ -1,11 +1,12 @@
 class QuizGeneratorService
-  def initialize(topic:, question_count: 10, category_id: nil, language: "english", llm_provider: "openai", author: nil, api_key: nil)
+  def initialize(topic:, question_count: 10, category_id: nil, language: "english", llm_provider: "openai", author: nil, user_id:, api_key: nil)
     @topic = topic
     @question_count = question_count
     @category_id = category_id
     @language = language
     @llm_provider = llm_provider
     @author = author.presence || @llm_provider.capitalize
+    @user_id = user_id
     @api_key = api_key
   end
 
@@ -77,7 +78,8 @@ def create_quiz(data)
         description: data["description"],
         category_id: @category_id,
         language: @language,
-        author: @author
+        author: @author,
+        user_id: @user_id
       )
 
     data["questions"].each do |q_data|
