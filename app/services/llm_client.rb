@@ -39,12 +39,18 @@ class LlmClient
     }.to_json
 
     response = http.request(request)
+
+    unless response.is_a?(Net::HTTPSuccess)
+      error_response = JSON.parse(response.body)
+      Rails.logger.error "OpenAI API error: #{error_response['error']['message']}"
+      return nil # Return nil on API failure
+    end
+
     JSON.parse(response.body).dig("choices", 0, "message", "content")
   end
 
   def generate_gemini(prompt)
-    api_key = ENV["GEMINI_API_KEY"]
-    uri = URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=#{api_key}")
+    uri = URI("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=#{@api_key}")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
 

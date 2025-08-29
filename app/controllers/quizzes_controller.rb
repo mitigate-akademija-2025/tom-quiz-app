@@ -111,7 +111,7 @@ class QuizzesController < ApplicationController
       language: params[:language],
       llm_provider: params[:llm_provider],
       author: params[:author],
-      api_key: current_user.api_key
+      api_key: current_user.api_keys.for_key_type(params[:llm_provider]).first&.key
     )
 
     @quiz = service.generate
