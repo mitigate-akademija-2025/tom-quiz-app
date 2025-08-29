@@ -65,5 +65,4 @@ gem "tailwindcss-rails", "~> 4.3"
 
 gem "rqrcode"
 
-gem 'devise', '~> 4.9'
-
+gem "devise", "~> 4.9"
