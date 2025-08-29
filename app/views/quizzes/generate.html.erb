@@ -37,12 +37,9 @@
 
       <div class="mb-4">
         <%= form.label :llm_provider, "AI Provider", class: "block mb-2" %>
-        <%= form.select :llm_provider, 
-            options_for_select([
-              ['OpenAI 4.1-mini', 'openai'],
-              ['Google Gemini', 'gemini']
-            ]),
-            {}, 
+        <%= form.select :llm_provider,
+            options_from_collection_for_select(current_user.key_types_with_api_keys, :name, :name),
+            { prompt: "Select provider" },
             class: "w-full p-2 border rounded" %>
       </div>
 

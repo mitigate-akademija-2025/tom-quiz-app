@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :quizzes, dependent: :destroy
   has_many :api_keys, dependent: :destroy
+  has_many :key_types, through: :api_keys
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
@@ -30,5 +31,9 @@ class User < ApplicationRecord
 
   def api_key_for(key_type_name)
     api_keys.includes(:key_type).find_by(key_types: { name: key_type_name.to_s })
+  end
+
+  def key_types_with_api_keys
+    self.key_types.distinct
   end
 end

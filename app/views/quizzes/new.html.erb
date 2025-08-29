@@ -2,10 +2,21 @@
   <h1 class="page-header">Create New Quiz</h1>
   
   <div class="grid grid-cols-2 gap-4 mb-6">
-    <%= link_to generate_quizzes_path, class: "text-center p-6 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition" do %>
-      <div class="text-4xl mb-2">🤖</div>
-      <h3 class="font-semibold">Generate with AI</h3>
-      <p class="text-sm text-gray-600 mt-2">Let AI create a quiz for you</p>
+    <% if current_user.key_types_with_api_keys.any? %>
+      <%= link_to generate_quizzes_path, class: "text-center p-6 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition" do %>
+        <div class="text-4xl mb-2">🤖</div>
+        <h3 class="font-semibold">Generate with AI</h3>
+        <p class="text-sm text-gray-600 mt-2">Let AI create a quiz for you</p>
+      <% end %>
+    <% else %>
+      <div class="text-center p-6 border-2 border-red-300 bg-red-50 rounded-lg cursor-not-allowed transition"
+           title="You need to set up an API key in your profile to generate quizzes with AI.">
+        <div class="text-4xl mb-2 text-gray-400">🤖</div>
+        <h3 class="font-semibold text-gray-500">Generate with AI</h3>
+        <p class="text-sm text-red-700 mt-2">
+          Set up an API key in your <a href="<%= profile_user_path(current_user) %>" class="underline hover:text-red-900">profile</a> to enable this feature.
+        </p>
+      </div>
     <% end %>
     
     <div class="text-center p-6 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition cursor-pointer" onclick="document.getElementById('manual-form').classList.toggle('hidden')">
