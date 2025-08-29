@@ -39,13 +39,7 @@
   <% end %>
 
   <main class="main-container">
-      <% if notice.present? %>
-        <div class="flash-success"><%= notice %></div>
-      <% end %>
-      <% if alert.present? %>
-        <div class="flash-error"><%= alert %></div>
-      <% end %>
-  <%= yield %>
+    <%= yield %>
   </main>
   </body>
 </html>

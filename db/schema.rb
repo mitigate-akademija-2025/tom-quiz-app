@@ -63,7 +63,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_072637) do
     t.integer "category_id", null: false
     t.string "language"
     t.string "author"
-    t.integer "user_id", null: false
     t.index ["category_id"], name: "index_quizzes_on_category_id"
     t.index ["user_id"], name: "index_quizzes_on_user_id"
   end
