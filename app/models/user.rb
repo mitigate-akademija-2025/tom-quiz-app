@@ -5,7 +5,9 @@ class User < ApplicationRecord
   has_many :api_keys, dependent: :destroy
   has_many :key_types, through: :api_keys
 
+  before_create :generate_confirmation_token
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+  validates :email_address, presence: true, uniqueness: { case_sensitive: false }
 
   # API key management methods
   def update_api_key(key_type:, key_value: nil)
@@ -35,5 +37,14 @@ class User < ApplicationRecord
 
   def key_types_with_api_keys
     self.key_types.distinct
+  end
+
+  def confirmed?
+    confirmed_at.present?
+  end
+
+  def generate_confirmation_token
+    self.confirmation_token = SecureRandom.urlsafe_base64
+    self.confirmation_sent_at = Time.current
   end
 end

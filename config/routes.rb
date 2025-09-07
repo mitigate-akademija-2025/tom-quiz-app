@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
+  get "confirm", to: "users#confirm", as: :confirm
+  get "login", to: "sessions#new", as: :login
   resources :users, only: [ :new, :create, :destroy ] do
     member do
       get :profile

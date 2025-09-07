@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  allow_unauthenticated_access only: [ :new, :create ]
+  allow_unauthenticated_access only: [ :new, :create, :confirm ]
   before_action :set_user, except: [ :new, :create ]
   before_action :set_key_type, only: [ :edit_api_key, :update_api_key, :destroy_api_key ]
 
@@ -9,10 +9,11 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.generate_confirmation_token
 
     if @user.save
-      start_new_session_for(@user)
-      redirect_to root_path, notice: "Welcome! Your account has been created."
+      UserMailer.confirmation_email(@user).deliver_later
+      redirect_to root_path, notice: "Check your email to confirm your account."
     else
       render :new, status: :unprocessable_content
     end
@@ -77,6 +78,18 @@ class UsersController < ApplicationController
       redirect_to profile_user_path(@user), alert: "No API key found to delete."
     end
   end
+
+  def confirm
+    puts("Confirmation token: #{params[:token]}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    user = User.find_by(confirmation_token: params[:token])
+    if user && user.confirmation_sent_at > 2.days.ago
+      user.update(confirmed_at: Time.current, confirmation_token: nil)
+      redirect_to new_session_path, notice: "Your account is confirmed!"
+    else
+      redirect_to root_path, alert: "Invalid or expired confirmation link."
+    end
+  end
+
 
   private
 
