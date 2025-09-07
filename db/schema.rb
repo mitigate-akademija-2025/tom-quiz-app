@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_06_190940) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_161245) do
   create_table "answers", force: :cascade do |t|
     t.integer "question_id", null: false
     t.text "answer_text"
@@ -79,14 +79,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_06_190940) do
 
   create_table "users", force: :cascade do |t|
     t.string "email_address", null: false
-    t.string "password_digest", null: false
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string "provider"
+    t.string "uid"
+    t.string "name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index ["provider"], name: "index_users_on_provider"
   end
 
   add_foreign_key "answers", "questions"
