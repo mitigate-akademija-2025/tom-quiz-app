@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
+
   get "confirm", to: "users#confirm", as: :confirm
   get "login", to: "sessions#new", as: :login
+
   resources :users, only: [ :new, :create, :destroy ] do
     member do
       get :profile
@@ -14,7 +16,13 @@ Rails.application.routes.draw do
       patch "update_api_key/:api_type", to: "users#update_api_key", as: :update_api_key
       delete "destroy_api_key/:api_type", to: "users#destroy_api_key", as: :destroy_api_key
     end
+
+    collection do
+      get :resend_confirmation
+      post :send_confirmation
+    end
   end
+
   resources :quizzes do
     resources :questions do
       resources :answers, except: [ :index, :show ]

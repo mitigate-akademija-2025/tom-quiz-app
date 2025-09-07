@@ -1,12 +1,4 @@
 <div class="mx-auto md:w-2/3 w-full">
-  <% if alert = flash[:alert] %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-  <% end %>
-
-  <% if notice = flash[:notice] %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
   <h1 class="font-bold text-4xl">Sign in</h1>
 
   <%= form_with url: session_url, class: "contents" do |form| %>
@@ -29,4 +21,15 @@
     </div>
     <% end %>
     <%= link_to "Don't have an account? Sign up", new_user_path, class: "text-gray-700 underline hover:no-underline" %>
-</div>
+
+
+  <% if alert == "Please confirm your email before signing in." %>
+    <div class="my-4 p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <%= alert %>
+      <%= form_with url: send_confirmation_users_path, method: :post, local: true, class: "inline-block" do |form| %>
+        <%= form.hidden_field :email, value: params[:email_address] %>
+        <%= form.submit "Resend confirmation email", class: "font-medium underline ml-2 bg-transparent border-none text-red-800 cursor-pointer" %>
+      <% end %>
+    </div>
+  <% end %>
+ </div>

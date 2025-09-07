@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  allow_unauthenticated_access only: [ :new, :create, :confirm ]
+  allow_unauthenticated_access only: [ :new, :create, :confirm, :resend_confirmation, :send_confirmation ]
   before_action :set_user, except: [ :new, :create ]
   before_action :set_key_type, only: [ :edit_api_key, :update_api_key, :destroy_api_key ]
 
@@ -80,7 +80,6 @@ class UsersController < ApplicationController
   end
 
   def confirm
-    puts("Confirmation token: #{params[:token]}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     user = User.find_by(confirmation_token: params[:token])
     if user && user.confirmation_sent_at > 2.days.ago
       user.update(confirmed_at: Time.current, confirmation_token: nil)
@@ -90,6 +89,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def resend_confirmation
+  end
+
+  def send_confirmation
+    user = User.find_by(email_address: params[:email])
+
+    if user && !user.confirmed?
+      user.generate_confirmation_token
+      user.save!
+      UserMailer.confirmation_email(user).deliver_later
+      redirect_to root_path, notice: "A new confirmation email has been sent."
+    else
+      redirect_to resend_confirmation_users_path, alert: "Email not found or already confirmed."
+    end
+  end
 
   private
 
