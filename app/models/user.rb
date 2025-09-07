@@ -9,6 +9,11 @@ class User < ApplicationRecord
   normalizes :email_address, with: ->(e) { e.strip.downcase }
   validates :email_address, presence: true, uniqueness: { case_sensitive: false }
 
+  validates :password, length: { minimum: 8, maximum: 128 },
+            if: -> { password.present? }
+  validates :password, confirmation: true, if: -> { password.present? }
+  validate :password_complexity, if: -> { password.present? }
+
   # API key management methods
   def update_api_key(key_type:, key_value: nil)
     api_key = api_key_for(key_type.name) || api_keys.build(key_type: key_type)
@@ -46,5 +51,19 @@ class User < ApplicationRecord
   def generate_confirmation_token
     self.confirmation_token = SecureRandom.urlsafe_base64
     self.confirmation_sent_at = Time.current
+  end
+
+  def password_complexity
+    return unless password.present?
+
+    requirements = []
+    requirements << "contain at least one lowercase letter" unless password.match?(/[a-z]/)
+    requirements << "contain at least one uppercase letter" unless password.match?(/[A-Z]/)
+    requirements << "contain at least one digit" unless password.match?(/\d/)
+    requirements << "contain at least one special character" unless password.match?(/[!@#$%^&*(),.?":{}|<>]/)
+
+    if requirements.any?
+      errors.add(:password, "must #{requirements.join(', ')}")
+    end
   end
 end
