@@ -40,4 +40,3 @@ vendor
 /config/credentials/development.key
 
 /config/credentials/production.key
-.kamal/secrets
