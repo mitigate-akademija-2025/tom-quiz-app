@@ -64,3 +64,9 @@ gem "tailwindcss-ruby", "~> 4.1"
 gem "tailwindcss-rails", "~> 4.3"
 
 gem "rqrcode"
+
+gem "omniauth"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-github"
+gem "omniauth-google-oauth2"
+gem "omniauth-microsoft_graph"
