@@ -4,8 +4,10 @@ Rails.application.routes.draw do
 
   get "confirm", to: "users#confirm", as: :confirm
   get "login", to: "sessions#new", as: :login
-  get "/auth/:provider/callback", to: "sessions#omniauth"
-  get "/auth/failure", to: "sessions#failure"
+
+  get "auth/:provider/callback", to: "sessions#omniauth"
+  get "auth/failure", to: "sessions#failure"
+  delete "/logout", to: "sessions#destroy"
 
   resources :users, only: [ :new, :create, :destroy ] do
     member do

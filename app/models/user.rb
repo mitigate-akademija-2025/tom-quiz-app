@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   before_create :generate_confirmation_token, unless: :oauth_user?
   normalizes :email_address, with: ->(e) { e.strip.downcase }
-  validates :email_address, presence: true, uniqueness: { case_sensitive: false }
+  validates :email_address, presence: true, uniqueness: { case_sensitive: false }, unless: :oauth_user?
 
   # Password validations only for regular users
   validates :password, length: { minimum: 8, maximum: 128 },
@@ -17,12 +17,15 @@ class User < ApplicationRecord
 
   # OAuth user creation
   def self.from_omniauth(auth)
+    # Check if an email is provided by the OAuth provider
+    email = auth.info.email.present? ? auth.info.email : "#{auth.uid}@#{auth.provider}.com"
+
     # First check if user exists with this OAuth provider
     oauth_user = find_by(provider: auth.provider, uid: auth.uid)
     return oauth_user if oauth_user
 
     # Check if user exists with this email (account linking)
-    existing_user = find_by(email_address: auth.info.email)
+    existing_user = find_by(email_address: email)
 
     if existing_user && existing_user.regular_user?
       # Link OAuth to existing regular account
@@ -36,7 +39,7 @@ class User < ApplicationRecord
     else
       # Create new OAuth user
       create!(
-        email_address: auth.info.email,
+        email_address: email,
         name: auth.info.name,
         provider: auth.provider,
         uid: auth.uid,
