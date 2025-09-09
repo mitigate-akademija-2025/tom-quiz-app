@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     collection do
       get "generate"
       post "create_from_ai"
+      post "create_from_demo"
     end
   end
 

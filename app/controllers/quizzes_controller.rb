@@ -124,6 +124,49 @@ class QuizzesController < ApplicationController
     end
   end
 
+  def create_from_demo
+    unless LlmApiUsage.can_use?(current_user.email_address)
+      time_left = LlmApiUsage.time_until_available(current_user.email_address)
+      hours_left = (time_left / 3600.0).ceil
+      return redirect_to generate_quizzes_path,
+            alert: "Daily demo limit reached. Try again in #{hours_left} hours."
+    end
+
+    # Get demo API keys from credentials
+    demo_keys = Rails.application.credentials.llm_api_keys
+    selected_provider = params[:llm_provider].to_sym
+    demo_api_key = demo_keys[selected_provider]
+
+    # Check if there is a demo key for user selected provider
+    unless demo_api_key
+      return redirect_to generate_quizzes_path,
+            alert: "Demo not available for #{params[:llm_provider]}. Please select OpenAI or Gemini."
+    end
+
+    service = QuizGeneratorService.new(
+      topic: params[:topic],
+      question_count: [ params[:question_count].to_i, 5 ].min, # Max 5 for demo
+      category_id: params[:category_id],
+      language: params[:language],
+      llm_provider: params[:llm_provider],
+      author: params[:author],
+      user_id: current_user.id,
+      api_key: demo_api_key
+    )
+
+    begin
+      @quiz = service.generate
+      if @quiz
+        LlmApiUsage.record_usage!(current_user.email_address)
+        redirect_to @quiz, notice: "Demo quiz generated with #{params[:llm_provider]}! (Limited to 5 questions)"
+      else
+        redirect_to generate_quizzes_path, alert: "Failed to generate demo quiz"
+      end
+    rescue => e
+      Rails.logger.error "Demo generation failed: #{e.message}"
+      redirect_to generate_quizzes_path, alert: "Demo generation failed. Please try again."
+    end
+  end
 
   private
 
