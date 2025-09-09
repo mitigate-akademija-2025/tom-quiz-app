@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_07_161245) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_09_074623) do
   create_table "answers", force: :cascade do |t|
     t.integer "question_id", null: false
     t.text "answer_text"
@@ -43,6 +43,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_07_161245) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_key_types_on_name", unique: true
+  end
+
+  create_table "llm_api_usages", force: :cascade do |t|
+    t.string "email", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_llm_api_usages_on_email", unique: true
+    t.index ["expires_at"], name: "index_llm_api_usages_on_expires_at"
   end
 
   create_table "questions", force: :cascade do |t|
