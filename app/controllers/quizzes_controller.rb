@@ -3,6 +3,7 @@ class QuizzesController < ApplicationController
   before_action :set_quiz, only: [ :show, :start, :take, :answer, :results, :edit, :update, :destroy ]
   before_action :set_categories, only: [ :new, :edit, :create, :update ]
   before_action :authorize_owner!, only: [ :edit, :update, :destroy ]
+  helper_method :llm_usage_available?
 
   def index
     @quizzes = Quiz.all
@@ -205,5 +206,9 @@ class QuizzesController < ApplicationController
       total: total,
       percentage: total > 0 ? (correct.to_f / total * 100).round : 0
     }
+  end
+
+  def llm_usage_available?
+    LlmApiUsage.can_use?(current_user.email_address)
   end
 end

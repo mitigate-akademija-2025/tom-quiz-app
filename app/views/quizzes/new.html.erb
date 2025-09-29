@@ -2,7 +2,7 @@
   <h1 class="page-header">Create New Quiz</h1>
   
   <div class="grid grid-cols-2 gap-4 mb-6">
-    <% if current_user.key_types_with_api_keys.any? %>
+    <% if current_user.key_types_with_api_keys.any? || llm_usage_available? %>
       <%= link_to generate_quizzes_path, class: "text-center p-6 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition" do %>
         <div class="text-4xl mb-2">🤖</div>
         <h3 class="font-semibold">Generate with AI</h3>
