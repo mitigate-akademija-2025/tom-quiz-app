@@ -60,9 +60,11 @@
           ]),
           {}, 
           class: "w-full p-2 border rounded" %>
-    </div>
+      </div>
       
-      <%= form.submit "Generate Quiz", class: "btn-primary w-full" %>
+      <%= form.submit current_user.free_user? ? "Generate free daily Quiz" : "Generate Quiz", 
+                      class: "btn-primary w-full" %>
+    
     <% end %>
   </div>
 </div>

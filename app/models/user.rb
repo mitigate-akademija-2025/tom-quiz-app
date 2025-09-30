@@ -59,6 +59,10 @@ class User < ApplicationRecord
     provider.blank? && uid.blank?
   end
 
+  def free_user?
+    api_keys.empty?
+  end
+
   def linked_user?
     oauth_user? && password_digest.present?
   end
