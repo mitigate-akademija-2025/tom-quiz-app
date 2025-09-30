@@ -24,8 +24,6 @@
         <% if current_user.free_user? %>
           <%= form.number_field :question_count,
               value: 5,
-              min: 5,
-              max: 5,
               disabled: true,
               class: "w-full p-2 border rounded bg-gray-100" %>
           <p class="text-sm text-gray-600 mt-1">Free users limited to 5 questions</p>
@@ -48,10 +46,16 @@
 
       <div class="mb-4">
         <%= form.label :llm_provider, "AI Provider", class: "block mb-2" %>
+        <% if current_user.free_user? %>
+          <% providers = Rails.application.credentials.llm_api_keys.keys.map(&:to_s) %>
+        <% else %>
+          <% providers = current_user.key_types_with_api_keys.pluck(:name) %>
+        <% end %>
+
         <%= form.select :llm_provider,
-            options_from_collection_for_select(current_user.key_types_with_api_keys, :name, :name),
-            { prompt: "Select provider" },
-            class: "w-full p-2 border rounded" %>
+              options_for_select(providers),
+              { prompt: "Select provider" },
+              class: "w-full p-2 border rounded" %>
       </div>
 
       <div class="mb-4">

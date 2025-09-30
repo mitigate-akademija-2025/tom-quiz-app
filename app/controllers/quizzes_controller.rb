@@ -105,67 +105,56 @@ class QuizzesController < ApplicationController
   end
 
   def create_from_ai
-    service = QuizGeneratorService.new(
-      topic: params[:topic],
-      question_count: params[:question_count].to_i,
-      category_id: params[:category_id],
-      language: params[:language],
-      llm_provider: params[:llm_provider],
-      author: params[:author],
-      user_id: current_user.id,
-      api_key: current_user.api_keys.for_key_type(params[:llm_provider]).first&.key
-    )
-
-    @quiz = service.generate
-
-    if @quiz
-      redirect_to @quiz, notice: "Quiz generated successfully!"
-    else
-      redirect_to generate_quizzes_path, alert: "Failed to generate quiz"
-    end
-  end
-
-  def create_from_demo
-    unless LlmApiUsage.can_use?(current_user.email_address)
-      time_left = LlmApiUsage.time_until_available(current_user.email_address)
-      hours_left = (time_left / 3600.0).ceil
-      return redirect_to generate_quizzes_path,
-            alert: "Daily demo limit reached. Try again in #{hours_left} hours."
-    end
-
-    # Get demo API keys from credentials
-    demo_keys = Rails.application.credentials.llm_api_keys
     selected_provider = params[:llm_provider].to_sym
-    demo_api_key = demo_keys[selected_provider]
+    api_key = current_user.user_or_demo_api_key(selected_provider)
 
-    # Check if there is a demo key for user selected provider
-    unless demo_api_key
-      return redirect_to generate_quizzes_path,
-            alert: "Demo not available for #{params[:llm_provider]}. Please select OpenAI or Gemini."
+    if current_user.free_user?
+      # Validation for free users
+      unless LlmApiUsage.can_use?(current_user.email_address)
+        time_left = LlmApiUsage.time_until_available(current_user.email_address)
+        hours_left = (time_left / 3600.0).ceil
+        return redirect_to generate_quizzes_path,
+              alert: "Daily demo limit reached. Try again in #{hours_left} hours."
+      end
+
+      unless api_key
+        return redirect_to generate_quizzes_path,
+              alert: "Demo not available for #{params[:llm_provider]}. Please select OpenAI or Gemini."
+      end
+
+      question_count = 5  # Fixed to for demo
+    else
+      question_count = params[:question_count].to_i
+
+      unless api_key
+        return redirect_to generate_quizzes_path,
+              alert: "No API key found for #{params[:llm_provider]}."
+      end
     end
 
     service = QuizGeneratorService.new(
       topic: params[:topic],
-      question_count: [ params[:question_count].to_i, 5 ].min, # Max 5 for demo
+      question_count: question_count,
       category_id: params[:category_id],
       language: params[:language],
       llm_provider: params[:llm_provider],
       author: params[:author],
       user_id: current_user.id,
-      api_key: demo_api_key
+      api_key: api_key
     )
 
     begin
       @quiz = service.generate
       if @quiz
-        LlmApiUsage.record_usage!(current_user.email_address)
-        redirect_to @quiz, notice: "Demo quiz generated with #{params[:llm_provider]}! (Limited to 5 questions)"
+        LlmApiUsage.record_usage!(current_user.email_address) if current_user.free_user?
+        notice_text = current_user.free_user? ? "Demo quiz generated! (Limited to 5 questions)" : "Quiz generated successfully!"
+        redirect_to @quiz, notice: notice_text
       else
-        redirect_to generate_quizzes_path, alert: "Failed to generate demo quiz"
+        redirect_to generate_quizzes_path, alert: "Failed to generate quiz"
       end
     rescue => e
-      Rails.logger.error "Demo generation failed: #{e.message}"
-      redirect_to generate_quizzes_path, alert: "Demo generation failed. Please try again."
+      Rails.logger.error "Quiz generation failed: #{e.message}"
+      redirect_to generate_quizzes_path, alert: "Quiz generation failed. Please try again."
     end
   end
 
