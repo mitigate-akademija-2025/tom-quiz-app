@@ -99,8 +99,8 @@ class User < ApplicationRecord
   def user_or_demo_api_key(provider)
     api_key_record = api_key_for(provider)
 
-    if api_key_record&.new_key.present?
-      api_key_record.new_key
+    if api_key_record.key.present?
+      api_key_record.key
     else
       Rails.application.credentials.llm_api_keys[provider.to_sym]
     end
