@@ -71,3 +71,4 @@ gem "omniauth-github"
 gem "omniauth-google-oauth2"
 
 gem "ruby_llm"
+gem "ruby_llm-schema"
