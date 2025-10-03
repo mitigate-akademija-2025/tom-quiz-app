@@ -68,7 +68,7 @@ class User < ApplicationRecord
   end
 
   def update_api_key(key_type:, key_value: nil)
-    api_key = api_key_for(key_type.name) || api_keys.build(key_type: key_type)
+    api_key = find_user_api_key_for(key_type.name) || api_keys.build(key_type: key_type)
     api_key.new_key = key_value if key_value.present?
 
     if api_key.save
@@ -79,7 +79,7 @@ class User < ApplicationRecord
   end
 
   def remove_api_key(key_type:)
-    api_key = api_key_for(key_type.name)
+    api_key = find_user_api_key_for(key_type.name)
 
     if api_key&.destroy
       { success: true, message: "#{key_type.name.humanize} API key removed." }
@@ -88,22 +88,34 @@ class User < ApplicationRecord
     end
   end
 
-  def api_key_for(key_type_name)
+  def find_user_api_key_for(key_type_name)
     api_keys.includes(:key_type).find_by(key_types: { name: key_type_name.to_s })
+  end
+
+  def get_free_user_api_key_for(provider)
+    Rails.application.credentials.llm_api_keys[provider.to_sym]
+  end
+
+  def effective_api_key_for(provider)
+    find_user_api_key_for(provider)&.key.presence || get_free_user_api_key_for(provider)
+  end
+
+  def llm_chat(provider)
+    key = effective_api_key_for(provider)
+    context = RubyLLM.context do |config|
+    case provider.to_s.downcase
+    when "openai"
+      config.openai_api_key = key
+    when "gemini"
+      config.gemini_api_key = key
+    end
+  end
+
+  context.chat
   end
 
   def key_types_with_api_keys
     self.key_types.distinct
-  end
-
-  def user_or_demo_api_key(provider)
-    api_key_record = api_key_for(provider)
-
-    if api_key_record.key.present?
-      api_key_record.key
-    else
-      Rails.application.credentials.llm_api_keys[provider.to_sym]
-    end
   end
 
   def confirmed?

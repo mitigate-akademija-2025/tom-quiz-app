@@ -1,7 +1,7 @@
 <%# locals: { user:, key_type: } %>
 
 <div class="border rounded-lg p-4">
-  <% api_key = user.api_key_for(key_type.name) %>
+  <% api_key = user.find_user_api_key_for(key_type.name) %>
   <p class="text-gray-600"><%= key_type.name.humanize %> API Key</p>
   <p class="font-medium"><%= api_key.present? ? "••••••••" : "Not set" %></p>
   

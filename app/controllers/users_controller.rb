@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def edit_api_key
-    @api_key = @user.api_key_for(@key_type.name) || @user.api_keys.build(key_type: @key_type)
+    @api_key = @user.find_user_api_key_for(@key_type.name) || @user.api_keys.build(key_type: @key_type)
   end
 
   def update_api_key
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
   end
 
   def destroy_api_key
-    api_key = @user.api_key_for(params[:api_type])
+    api_key = @user.find_user_api_key_for(params[:api_type])
     if api_key
       api_key.destroy
       redirect_to profile_user_path(@user), notice: "#{@key_type.name.titleize} API key deleted."

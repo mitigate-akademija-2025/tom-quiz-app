@@ -106,10 +106,9 @@ class QuizzesController < ApplicationController
 
   def create_from_ai
     selected_provider = params[:llm_provider].to_sym
-    api_key = current_user.user_or_demo_api_key(selected_provider)
 
     if current_user.free_user?
-      # Validation for free users
+      # validation: daily usage limit
       unless LlmApiUsage.can_use?(current_user.email_address)
         time_left = LlmApiUsage.time_until_available(current_user.email_address)
         hours_left = (time_left / 3600.0).ceil
@@ -117,45 +116,47 @@ class QuizzesController < ApplicationController
               alert: "Daily demo limit reached. Try again in #{hours_left} hours."
       end
 
-      unless api_key
+      unless current_user.get_free_user_api_key_for(selected_provider)
         return redirect_to generate_quizzes_path,
-              alert: "Demo not available for #{params[:llm_provider]}. Please select OpenAI or Gemini."
+              alert: "Demo not available for #{selected_provider}. Please select OpenAI or Gemini."
       end
 
-      question_count = 5  # Fixed to for demo
+      question_count = 5 # fixed for demo
+
     else
-      question_count = params[:question_count].to_i
 
-      unless api_key
+      unless current_user.find_user_api_key_for(selected_provider)
         return redirect_to generate_quizzes_path,
-              alert: "No API key found for #{params[:llm_provider]}."
+        alert: "No API key found for #{selected_provider}."
       end
+
+      question_count = params[:question_count].to_i
     end
 
-    service = QuizGeneratorService.new(
-      topic: params[:topic],
-      question_count: question_count,
-      category_id: params[:category_id],
-      language: params[:language],
-      llm_provider: params[:llm_provider],
-      author: params[:author],
-      user_id: current_user.id,
-      api_key: api_key
-    )
+    service = QuizGenerator.new(
+        user: current_user,
+        topic: params[:topic],
+        question_count: question_count,
+        language: params[:language],
+        provider: selected_provider,
+        category_id: params[:category_id],
+        author: params[:author]
+      )
 
-    begin
-      @quiz = service.generate
-      if @quiz
+      begin
+        @quiz = service.generate
+
         LlmApiUsage.record_usage!(current_user.email_address) if current_user.free_user?
-        notice_text = current_user.free_user? ? "Demo quiz generated! (Limited to 5 questions)" : "Quiz generated successfully!"
+
+        notice_text = current_user.free_user? ?
+          "Demo quiz generated! (Limited to 5 questions)" :
+          "Quiz generated successfully!"
+
         redirect_to @quiz, notice: notice_text
-      else
-        redirect_to generate_quizzes_path, alert: "Failed to generate quiz"
+      rescue => e
+        Rails.logger.error "Quiz generation failed: #{e.message}"
+        redirect_to generate_quizzes_path, alert: "Quiz generation failed. Please try again."
       end
-    rescue => e
-      Rails.logger.error "Quiz generation failed: #{e.message}"
-      redirect_to generate_quizzes_path, alert: "Quiz generation failed. Please try again."
-    end
   end
 
   private
