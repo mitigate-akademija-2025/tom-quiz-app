@@ -27,10 +27,9 @@ proxy:
 registry:
   # Specify the registry server, if you're not using Docker Hub
   # server: registry.digitalocean.com / ghcr.io / ...
-  username:
-    - KAMAL_REGISTRY_USERNAME
-  password:
-    - KAMAL_REGISTRY_PASSWORD
+  username: <%= ENV["KAMAL_REGISTRY_USERNAME"] %>
+  password: <%= ENV["KAMAL_REGISTRY_PASSWORD"] %>
+
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
