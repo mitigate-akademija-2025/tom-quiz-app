@@ -18,41 +18,13 @@ class QuizGenerator
       language: @language
     ).build
 
-    response = chat.ask(prompt)
-    quiz_data = parse_llm_response(response)
-    create_quiz(quiz_data)
+    response = chat.with_schema(QuizSchema).ask(prompt)
+    create_quiz(response.content)
   end
 
   private
 
-# app/services/quiz_generator.rb
 private
-
-  def parse_llm_response(response)
-    content = response.content
-
-    # Try to extract JSON from markdown code blocks
-    # Handles: ```json\n{...}\n```
-    json_string = if content.match?(/```(?:json)?\s*\n(.*?)\n```/m)
-      content.match(/```(?:json)?\s*\n(.*?)\n```/m)[1]
-    # Or just find JSON object in the text
-    elsif content.match?(/(\{.*\})/m)
-      content.match(/(\{.*\})/m)[1]
-    else
-      content
-    end
-
-    # Clean up common issues
-    json_string = json_string.strip
-
-    # Parse the cleaned JSON
-    JSON.parse(json_string)
-  rescue JSON::ParserError => e
-    Rails.logger.error "Failed to parse LLM response: #{e.message}"
-    Rails.logger.error "Content was: #{content}"
-    raise "Invalid LLM response format"
-  end
-
   def create_quiz(data)
     return nil unless data
 
@@ -76,12 +48,15 @@ private
         q_data["answers"].each do |a_data|
           question.answers.create!(
             answer_text: a_data["text"],
-            is_correct: a_data["is_correct"] || a_data["correct"]
+            is_correct: a_data["is_correct"]
           )
         end
       end
 
       quiz
     end
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error "Failed to create quiz: #{e.message}"
+    raise "Failed to save quiz: #{e.message}"
   end
 end

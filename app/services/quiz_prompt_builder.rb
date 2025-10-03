@@ -7,34 +7,13 @@ class QuizPromptBuilder
 
   def build
     <<~PROMPT
+      Generate a quiz about "#{@topic}" in #{@language} language.
 
-      Generate a #{@question_count}-question quiz about #{@topic} in #{@language.capitalize}.
-      Mix difficulty levels randomly.
-      Do not mix in any other language. Every field (title, description, questions, answers) must be written in #{@language.capitalize}.
+      Create exactly #{@question_count} multiple choice questions.
+      Each question should have exactly 4 answer options.
+      Only one answer should be marked as correct.
 
-      CRITICAL: Return ONLY valid JSON. No markdown, no code blocks, no explanations.
-      Do not wrap the JSON in ```json``` or any other formatting.
-      Start your response with { and end with }
-
-      Return the result as JSON in this exact format:
-      {
-        "title": "Creative quiz title",
-        "description": "Engaging 2-3 sentence description that explains what participants will learn and why this quiz is interesting",
-        "questions": [
-          {
-            "question_text": "Question here?",
-            "difficulty": <integer between 1 and 3>
-
-            "answers": [
-              {"text": "Answer 1", "correct": false},
-              {"text": "Answer 2", "correct": true},
-              {"text": "Answer 3", "correct": false},
-              {"text": "Answer 4", "correct": false}
-            ]
-          }
-        ]
-      }
-      Return ONLY the JSON, nothing else.
+      Make the questions challenging and educational.
     PROMPT
   end
 end
