@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   resources :users, only: [ :new, :create, :destroy ] do
     member do
       get :profile
-      get :edit_email
       patch :update_email
       get :edit_password
       patch :update_password

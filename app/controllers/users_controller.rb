@@ -28,17 +28,6 @@ class UsersController < ApplicationController
   def profile
   end
 
-  def edit_email
-  end
-
-  def update_email
-    if @user.update(email_params)
-      redirect_to profile_user_path(@user), notice: "Email updated"
-    else
-      render :edit_email, status: :unprocessable_content
-    end
-  end
-
   def edit_password
   end
 
