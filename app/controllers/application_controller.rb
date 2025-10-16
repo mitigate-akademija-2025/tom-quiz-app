@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
   include Authentication
+  
+  before_action :redirect_to_www
+  
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
@@ -27,5 +30,13 @@ class ApplicationController < ActionController::Base
     return false unless user&.respond_to?(:id)
 
     current_user_id == user.id
+  end
+
+  private
+
+  def redirect_to_www
+    if request.host == "tomsterauds.id.lv"
+      redirect_to "https://www.#{request.host}#{request.fullpath}", status: :moved_permanently
+    end
   end
 end
