@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_www
     if request.host == "tomsterauds.id.lv"
-      redirect_to "https://www.#{request.host}#{request.fullpath}", status: :moved_permanently
+      redirect_to "https://www.#{request.host}#{request.fullpath}", status: :moved_permanently, allow_other_host: true
     end
   end
 end
